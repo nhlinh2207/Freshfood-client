@@ -1,0 +1,74 @@
+<template lang="">
+    <nav>
+        <div class="container">
+            <!-- MAIN MENU Bar -->
+            <div class="d-none d-sm-none d-md-none d-lg-flex justify-content-between">
+                <ul class="nav nav-left">
+                    <NavbarItems />
+                </ul>
+                <div class="menu-search">
+                    <NavbarSearch/>
+                </div>
+            </div>
+            <!-- MENU OFFCANVAS -->
+            <div class="d-lg-none d-xl-none menu-offcanvas" :class="{'open' : isOpenOffCanvas}">
+                <div class="clearfix head-menu">
+                    <ul class="list-inline">
+                        <li>
+                            <a href="/freshfood/dang-nhap"><i class="fa fa-user"></i>Đăng nhập</a>
+                        </li>
+                        <li>
+                            <span> -</span>
+                        </li>
+                        <li>
+                            <a href="/freshfood/dang-ki">Đăng ký</a>
+                        </li>
+                        <li class="li-search">
+                            <NavbarSearch/>
+                        </li>
+                    </ul>
+                    <div class="menuclose" @click="closeOffCanvas"><i class="fa fa-window-close"></i></div>
+                </div>
+                <ul class="nav-mobile">
+                   <NavbarItems/>
+                </ul>
+            </div>
+        </div>
+    </nav>
+</template>
+<script>
+import NavbarItems from '@/components/client/header/NavbarItems.vue'
+import NavbarSearch from '@/components/client/header/NavbarSearch.vue';
+export default {
+    components: {
+        NavbarItems,
+        NavbarSearch
+    },
+
+    props: ['isOpenOffCanvas'],
+
+    data(){
+        return{
+            isLocalOpenOffCanvas: this.isOpenOffCanvas
+        }
+    },
+
+    watch: {
+        isOpenOffCanvas(newVal) {
+          this.isLocalOpenOffCanvas = newVal; 
+        }
+    },
+
+    methods: {
+        closeOffCanvas(){
+            this.isLocalOpenOffCanvas = false
+            this.$emit('closeOffCanvas')
+        }
+    }
+}
+</script>
+<style scoped>
+    .menuclose{
+        cursor: pointer;
+    }
+</style>
