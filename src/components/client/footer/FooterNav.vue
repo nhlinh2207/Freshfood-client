@@ -9,7 +9,7 @@
     </section>
 </template>
 <script>
-import OwlCarousel from "@/components/client/carousel/OwlCarousel.vue"
+import OwlCarousel from "@/components/OwlCarousel.vue"
 export default {
     components : {
         OwlCarousel

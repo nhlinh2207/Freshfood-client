@@ -1,12 +1,12 @@
 <template lang="">
     <li>
-        <a href="/freshfood/dang-nhap"><i class="fa fa-user"></i>Đăng nhập</a>
+        <router-link to="/login"><i class="fa fa-user"></i>Đăng nhập</router-link>
     </li>
     <li>
         <span> -</span>
     </li>
     <li>
-        <a href="/freshfood/dang-ky">Đăng ký</a>
+        <router-link to="/register">Đăng ký</router-link>
     </li>
     <!-- <li sec:authorize="isAuthenticated()">
         <a class="dropdown-toggle" data-toggle="dropdown" href="javascript:void(0)">Xin chào, Nguyễn Hoài Linh</a>    

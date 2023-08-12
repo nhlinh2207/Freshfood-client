@@ -15,13 +15,13 @@
                 <div class="clearfix head-menu">
                     <ul class="list-inline">
                         <li>
-                            <a href="/freshfood/dang-nhap"><i class="fa fa-user"></i>Đăng nhập</a>
+                            <router-link to="/login"><i class="fa fa-user"></i>Đăng nhập</router-link>
                         </li>
                         <li>
                             <span> -</span>
                         </li>
                         <li>
-                            <a href="/freshfood/dang-ki">Đăng ký</a>
+                            <router-link to="/register">Đăng ký</router-link>
                         </li>
                         <li class="li-search">
                             <NavbarSearch/>

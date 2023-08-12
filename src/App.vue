@@ -1,5 +1,6 @@
 <template>
   <HeaderClient />
+    <router-view/>
   <FooterClient/>
 </template>
 
