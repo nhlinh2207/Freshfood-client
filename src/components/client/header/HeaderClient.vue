@@ -1,5 +1,5 @@
 <template lang="">
-   <header class="header">
+    <header class="header">
         <!--TOPBAR MOBILE-->
         <div class="topbar-mobile d-lg-none d-xl-none text-center text-sm-left">
             <div class="container">

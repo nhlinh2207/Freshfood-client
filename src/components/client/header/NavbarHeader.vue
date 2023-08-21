@@ -1,5 +1,5 @@
 <template lang="">
-    <nav>
+    <nav :class="{sticky: isStickyNav}">
         <div class="container">
             <!-- MAIN MENU Bar -->
             <div class="d-none d-sm-none d-md-none d-lg-flex justify-content-between">
@@ -37,7 +37,7 @@
     </nav>
 </template>
 <script>
-import NavbarItems from '@/components/client/header/NavbarItems.vue'
+import NavbarItems from '@/components/client/header/NavbarItems.vue';
 import NavbarSearch from '@/components/client/header/NavbarSearch.vue';
 export default {
     components: {
@@ -49,6 +49,7 @@ export default {
 
     data(){
         return{
+            isStickyNav : false,
             isLocalOpenOffCanvas: this.isOpenOffCanvas
         }
     },
@@ -63,7 +64,23 @@ export default {
         closeOffCanvas(){
             this.isLocalOpenOffCanvas = false
             this.$emit('closeOffCanvas')
+        }, 
+        
+        handleActiveStickyNav(){
+            this.isStickyNav =  window.scrollY > 200
+        },
+
+        handleRemoveStickyNav() {
+            this.isStickyNav = false;
         }
+    },
+
+    mounted(){
+       window.addEventListener("scroll", this.handleActiveStickyNav)
+    },
+
+    beforeUnmount() {
+      window.removeEventListener("scroll", this.handleRemoveStickyNav);
     }
 }
 </script>

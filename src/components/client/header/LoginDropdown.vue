@@ -1,6 +1,6 @@
 <template lang="">
     <li>
-        <router-link to="/login"><i class="fa fa-user"></i>Đăng nhập</router-link>
+        <router-link to="/login"><i class="fa fa-user"></i>&nbsp;&nbsp;Đăng nhập</router-link>
     </li>
     <li>
         <span> -</span>

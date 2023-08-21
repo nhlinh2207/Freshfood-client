@@ -29,6 +29,7 @@
 <script>
 import CKEditor from '@ckeditor/ckeditor5-vue';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
+import '@ckeditor/ckeditor5-build-classic/build/translations/vi';
 
 export default {
     components: {
@@ -47,6 +48,8 @@ export default {
     }
 }
 </script>
-<style scoped>
-    
+<style>
+    .ck-editor__editable{
+        min-height: 300px !important;
+    }
 </style>

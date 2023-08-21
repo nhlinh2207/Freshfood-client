@@ -23,6 +23,23 @@ const routes = [
                 component: () => import("@/pages/client/ContactClient"),
             },
             {
+              path: "product",
+              name: "product",
+              meta: {
+                title: "Sản phẩm",
+              },
+              component: () => import("@/pages/client/ProductClient")
+            },
+            {
+              path: "product/:id",
+              name: "product-detail",
+              meta: {
+                title: "Chi tiết sản phẩm",
+              },
+              props: true,
+              component: () => import("@/pages/client/ProductDetail")
+            },
+            {
                 path: "intro",
                 name: "intro",
                 meta: {
@@ -46,7 +63,7 @@ const routes = [
                 requireAuth: true,
               },
               component: () => import("@/pages/client/CartClient"),
-          }
+            }
         ]
     }
 ]

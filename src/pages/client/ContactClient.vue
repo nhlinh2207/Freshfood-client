@@ -6,7 +6,7 @@
                 <div class="clearfix"></div>
                 <div id="content" class="col-sm-12 col-xs-12 col-md-12">
                     <h3 class="title-head">
-                        <span>Thông tin liên hệ</span>
+                        Thông tin liên hệ
                     </h3>
                     <div class="row">
                         <div class="col-sm-12">
@@ -46,21 +46,7 @@
                                             </div>
                                             <div class="d-flex">
                                                 <div class="info">
-                                                    <MapboxMap
-                                                        style=" width: 550px; height: 300px; border-radius: 15px; border: 2px solid lime"
-                                                        access-token="pk.eyJ1IjoibWluaG5uIiwiYSI6ImNsZTV4a2JudzAwNGwzcG1ycGRkNWp1bDcifQ.vPDFDfqa5J5Zrqghpz68RQ"
-                                                        map-style="mapbox://styles/mapbox/streets-v9"
-                                                        :center="mapCenter"
-                                                        :zoom="15" 
-                                                    >
-                                                        <MapboxMarker :lng-lat="mapCenter" popup>
-                                                            <template v-slot:popup>
-                                                               <p>Freshfood</p>
-                                                            </template>
-                                                        </MapboxMarker>
-                                                        <MapboxGeolocateControl/>
-                                                        <MapboxNavigationControl position="bottom-right" />
-                                                    </MapboxMap>
+                                                    <ContactMap />
                                                 </div>
                                             </div>
                                         </div>
@@ -76,23 +62,18 @@
     </div>
 </template>
 <script>
-import { MapboxMap, MapboxMarker, MapboxGeolocateControl, MapboxNavigationControl} from '@studiometa/vue-mapbox-gl';
-import 'mapbox-gl/dist/mapbox-gl.css';
+import ContactMap from '@/components/client/ContactMap.vue';
 import BreadCrumb from '@/components/client/BreadCrumb.vue';
 import ContactForm from '@/components/client/ContactForm.vue'
-import { ref } from 'vue';
 export default {
     components: {
         BreadCrumb,
         ContactForm,
-        MapboxMap,
-        MapboxMarker,
-        MapboxGeolocateControl,
-        MapboxNavigationControl 
+        ContactMap 
     },
     data(){
         return{
-            mapCenter : ref([105.8342, 21.0278])
+            
         }
     }
 }

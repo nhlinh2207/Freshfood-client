@@ -2,17 +2,17 @@
         <span class="language mobi-lang-curr">
             <a class="dropdown-toggle" data-toggle="dropdown" href="javascript:void(0)">
                 <img src="@/assets/images/languages/vi-vn.png" title="Tiếng Việt" alt="Tiếng Việt"/>
-                <span>Tiếng Việt</span>
+                <span>&nbsp;&nbsp;Tiếng Việt</span>
             </a>
             <ul class="dropdown-menu">
                 <li class="dropdown-item">
-                    <a class="language-select" href="/freshfood/trang-chu?lang=en" name="en-gb">
-                        <img src="@/assets/images/languages/en-gb.png" alt="Tiếng Anh" title="Tiếng Anh" /> English
+                    <a class="language-select" name="en" @click="changeLang">
+                        <img src="@/assets/images/languages/en-gb.png" alt="Tiếng Anh" title="Tiếng Anh" />&nbsp;&nbsp;English
                     </a>
                 </li>
                 <li class="dropdown-item">
-                    <a class="language-select" href="/freshfood/trang-chu?lang=vi" name="vi-vn">
-                        <img src="@/assets/images/languages/vi-vn.png" alt="Tiếng Việt" title="Tiếng Việt" /> Tiếng Việt
+                    <a class="language-select" name="vn"  @click="changeLang">
+                        <img src="@/assets/images/languages/vi-vn.png" alt="Tiếng Việt" title="Tiếng Việt" />&nbsp;&nbsp;Tiếng Việt
                     </a>
                 </li>
             </ul>
@@ -40,6 +40,17 @@
 <script>
 export default {
 
+    data(){
+        return{
+
+        }
+    },
+
+    methods: {
+        changeLang(event){
+            this.$i18n.locale = event.target.getAttribute("name")
+        }
+    }
 }
 </script>
 <style lang="">

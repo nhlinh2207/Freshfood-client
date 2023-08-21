@@ -13,13 +13,18 @@
                     </div>
                 </router-link>
             </div>
-            <div class="top-cart-content"></div>
+            <div class="top-cart-content">
+                <CartItems />
+            </div>
         </div>
     </div>
 </template>
 <script>
+import CartItems from '../CartItems.vue';
 export default {
-    
+    components: {
+        CartItems
+    }
 }
 </script>
 <style lang="">
