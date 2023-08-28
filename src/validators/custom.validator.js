@@ -2,6 +2,6 @@ export const $allNumber = (value) => {
       return /^\d+$/.test(value);
 }
 
-export const $nullValue = (value) => {
+export const $emptyValue = (value) => {
     return value !== ''
 }

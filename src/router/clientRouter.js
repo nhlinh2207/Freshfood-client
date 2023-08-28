@@ -63,6 +63,14 @@ const routes = [
                 requireAuth: true,
               },
               component: () => import("@/pages/client/CartClient"),
+            },
+            {
+              path: "checkout",
+              name: "checkout",
+              meta: {
+                title: "Thanh toán"
+              },
+              component: () => import("@/pages/client/CheckoutClient"),
             }
         ]
     }

@@ -7,13 +7,13 @@
                     <div class="clearfix"></div>
                     <div class="col-sm-12 col-md-6">
                         <div class="well">
-                           <h2>Khách hàng mới</h2>
-                           <p><strong>Đăng kí</strong></p>
-                           <p>
+                            <h2>Khách hàng mới</h2>
+                            <p><strong>Đăng kí</strong></p>
+                            <p>
                                Bằng việc tạo tài khoản bạn có thể mua sắm nhanh hơn,
                                theo dõi trạng thái đơn hàng và theo doxp đơn hàng bạn đã đặt
-                           </p>
-                           <a class="btn btn-primary" th:href="@{/freshfood/dang-ky}">Tiếp tục</a>
+                            </p>
+                            <router-link class="btn btn-primary" to="/register">Tiếp tục</router-link>
                         </div>
                     </div>
                     <div class="col-sm-12 col-md-6">
@@ -35,7 +35,7 @@
                                         Mật khẩu
                                     </label>
                                     <input type="password" name="password" id="input-password" placeholder="Mật khẩu" class="form-control"/>
-                                    <router-link to="/forget-password">Quên mật khẩu</router-link>
+                                    <router-link to="/forgetPassword">Quên mật khẩu</router-link>
                                 </div>
                                 <div class="method">
                                     <div class="method-control mb-3">
