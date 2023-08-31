@@ -76,6 +76,7 @@ import LogoHeader from '@/components/client/header/LogoHeader.vue'
 import ServiceHeader from '@/components/client/header/ServiceHeader.vue'
 import CartHeader from '@/components/client/header/CartHeader.vue'
 import NavbarHeader from '@/components/client/header/NavbarHeader.vue'
+
 export default {
     components: {
         LangCurrMobileDropdown,
@@ -104,6 +105,7 @@ export default {
 }
 </script>
 <style scoped>
+
     .menu-bar{
         cursor: pointer;
     }

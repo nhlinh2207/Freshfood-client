@@ -1,5 +1,7 @@
 <template lang="">
-    <BreadCrumb breadcrumbType="updatePassword" />
+    <div class="container">
+        <BreadCrumb breadcrumbType="updatePassword" />
+    </div>
     <section class="page">
         <div class="container">
             <div class="row">

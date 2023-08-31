@@ -1,6 +1,8 @@
 <template lang="">
     <div>
-        <BreadCrumb :breadcrumbType="'product/' + productId" />
+        <div class="container">
+            <BreadCrumb :breadcrumbType="'product/' + productId" />
+        </div>
         <section>
             <section class="page">
                 <div class="container">

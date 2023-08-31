@@ -2,6 +2,7 @@ const routes = [
     {
         path: "/admin",
         redirect: {name : "adminHome"},
+        component: () => import("@/pages/admin/MainAdmin"),
         meta: {
             requireAuth : false,
         },
@@ -10,10 +11,26 @@ const routes = [
                 path: "home",
                 name: "adminHome",
                 meta: {
-                  title: "Trang chủ",
+                  title: "Trang chủ Admin",
                 },
-                component: () => import("@/pages/client/HomeClient"),
-            }
+                component: () => import("@/pages/admin/HomeAdmin"),
+            },
+            {
+                path: "product",
+                name: "productAdmin",
+                meta: {
+                  title: "Sản phẩm Admin",
+                },
+                component: () => import("@/pages/admin/ProductAdmin"),
+            },
+            {
+                path: "addProduct",
+                name: "addProduct",
+                meta: {
+                  title: "Thêm mới sản phẩm",
+                },
+                component: () => import("@/pages/admin/AddProduct"),
+            },
         ]
     }
 ]

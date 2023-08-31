@@ -1,5 +1,7 @@
 <template lang="">
-    <BreadCrumb breadcrumbType="intro" />
+    <div class="container">
+        <BreadCrumb breadcrumbType="intro" />
+    </div>
     <section class="page">
         <div class="container">
             <div class="row">

@@ -1,5 +1,7 @@
 <template lang="">
-    <BreadCrumb breadcrumbType="updatePassword" />
+    <div class="container">
+        <BreadCrumb breadcrumbType="updatePassword" />
+    </div>
     <section>
         <div class="container">
         <div class="d-flex justify-content-center align-items-center">

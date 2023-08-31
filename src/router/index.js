@@ -1,56 +1,10 @@
 import ClientRouter from './clientRouter.js'
+import AdminRouter from './adminRouter.js'
 import { createRouter, createWebHistory } from "vue-router"
 
 const routes = [
-    {
-        path: "/login",
-        name: "login",
-        meta: {
-            title: "Đăng nhập",
-        },
-        component: () => import('@/pages/LoginPage')
-    },
-    {
-        path: "/register",
-        name: "register",
-        meta: {
-            title: "Đăng ký",
-        },
-        component: () => import('@/pages/RegisterPage')
-    },
-    {
-        path: "/profile",
-        name: "profile",
-        meta: {
-          title: "Thông tin người dùng"
-        },
-        component: () => import("@/pages/client/ProfileClient"),
-    },
-    {
-        path: "/changePassword",
-        name: "changePassword",
-        meta: {
-          title: "Đổi mật khẩu"
-        },
-        component: () => import("@/pages/client/ChangePassword"),
-    },
-    {
-        path: "/forgetPassword",
-        name: "forgetPassword",
-        meta: {
-          title: "Quên mật khẩu"
-        },
-        component: () => import("@/pages/client/ForgetPassword"),
-    },
-    {
-        path: "/updatePassword",
-        name: "updatePassword",
-        meta: {
-          title: "Cập nhật mật khẩu"
-        },
-        component: () => import("@/pages/client/UpdatePassword"),
-    },
     ...ClientRouter,
+    ...AdminRouter
 ]
 
 const router = createRouter({

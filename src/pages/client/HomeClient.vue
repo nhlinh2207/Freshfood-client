@@ -1,7 +1,9 @@
 <template lang="">
     <div>
-        <BreadCrumb breadcrumbType="home" />
-        
+        <div class="container">
+            <BreadCrumb breadcrumbType="home" />
+        </div>
+
         <section class="awe-section-1" id="awe-section-1">
             <div class="section-category-slider mt-md-3">
                 <div class="container">
@@ -9,12 +11,12 @@
                         <div class="col-sm-12 col-md-12 col-lg-9 px-2 px-lg-3 mb-5 order-lg-2">
                            <ClientBigBannerCarousel />
                         </div>
-                        <div class="col-sm-12 col-md-12 col-lg-3 sidebar col-left clearfix">
+                        <div class="col-sm-12 col-md-12 col-lg-3 col-left">
                             <AsideVerticleMenu/>
                         </div>
                     </div>
                 </div>
-            </div>
+            </div> 
         </section>
 
         <!-- Small Banner 1 Carousel -->

@@ -1,5 +1,7 @@
 <template lang="">
-    <BreadCrumb breadcrumbType="profile" />
+    <div class="container">
+        <BreadCrumb breadcrumbType="profile" />
+    </div>
     <section>
         <section class="page mb-4">
             <div class="container">

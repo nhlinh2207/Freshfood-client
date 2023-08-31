@@ -1,5 +1,7 @@
 <template lang="">
-    <BreadCrumb breadcrumbType="checkout" />
+    <div class="container">
+        <BreadCrumb breadcrumbType="checkout" />
+    </div>
     <section>
         <section class="page mb-4"> 
             <div class="container">

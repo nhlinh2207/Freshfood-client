@@ -1,6 +1,8 @@
 <template lang="">
     <div>
-        <BreadCrumb breadcrumbType="contact" />
+        <div class="container">
+            <BreadCrumb breadcrumbType="contact" />
+        </div>
         <div class="container container-fix-hd contact margin-bottom-30">
             <div class="row">
                 <div class="clearfix"></div>
