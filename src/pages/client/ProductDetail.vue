@@ -57,7 +57,7 @@
                                                         <span class="qtyplus" data-field="quantity" @click="increaseQuantity">+</span>                                          
                                                     </div>
                                                     <button class="float-left btn btn-lg btn-primary btn-cart btn-cart2 add_to_cart btn_buy add_to_cart"
-                                                        @click="addToCart"
+                                                        @click.prevent="addToCart({product: null})"
                                                         type="button" id="button-cart" data-loading-text="Đang tải...">
                                                         <span>Thêm vào giỏ <i class="fa .fa-caret-right"></i></span>
                                                     </button>  
@@ -92,37 +92,44 @@
         </section>
     </div>
 </template>
-<script setup>
+<script>
 import {useRoute} from 'vue-router'
 import BreadCrumb from '@/components/client/BreadCrumb.vue'
 import SocialMediaImages from '@/components/client/SocialMediaImages.vue';
 import CommentRating from '@/components/client/CommentRating.vue'
 import ProductCarousel from '@/components/carousel/ProductCarousel.vue';
-import { ref } from 'vue';
+import { mapActions } from 'vuex';
 
-const route = useRoute();
-const productId = route.params.id;
-const quantity = ref(1)
+export default{
 
-const addToCart = () => {
-    alert(quantity.value)
-}
-
-const changeQuantityInput = (event) => {
-    if(event.target.value === ''){
-        quantity.value = 1
-    }else{
-        quantity.value = event.target.value
+    components: {
+       BreadCrumb,
+       SocialMediaImages,
+       CommentRating,
+       ProductCarousel
+    },
+  data () {
+    return {
+        quantity: 1,
+        route: useRoute(),
+        productId: useRoute().params.id
     }
-}
+  },
+  methods: {
+    ...mapActions('cart', ['addToCart']),
+    changeQuantityInput(event){
+        this.quantity = event.target.value === '' ? 1 : event.target.value
+    },
 
-const decreaseQuantity = () => {
-    if(quantity.value > 1)
-       quantity.value--;
-}
+    decreaseQuantity(){
+        if(this.quantity > 1)
+           this.quantity--;
+    },
 
-const increaseQuantity = () => {
-    quantity.value++;
+    increaseQuantity(){
+        this.quantity++;
+    }
+  },
 }
 
 </script>

@@ -24,6 +24,14 @@ const routes = [
                 component: () => import("@/pages/admin/ProductAdmin"),
             },
             {
+                path: "category",
+                name: "categoryAdmin",
+                meta: {
+                  title: "Danh mục Admin",
+                },
+                component: () => import("@/pages/admin/CategoryAdmin"),
+            },
+            {
                 path: "addProduct",
                 name: "addProduct",
                 meta: {

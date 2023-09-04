@@ -1,7 +1,7 @@
 <template lang="">
      <li class="nav-item active">
         <router-link class="nav-link" :to="url">
-            <i :class="icon"></i>
+            <i :class="icon"></i>&nbsp;&nbsp;
             <span>{{title}}</span>
         </router-link>
     </li>

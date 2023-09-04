@@ -25,6 +25,7 @@ router.beforeEach((to, from, next) => {
 })
 
 router.afterEach((to) => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
     document.title = to.meta.title ?? "App";
 });
 

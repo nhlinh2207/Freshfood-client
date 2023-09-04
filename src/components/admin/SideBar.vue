@@ -46,7 +46,7 @@
         <li class="nav-item active">
             <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUtilities"
                 aria-expanded="true" aria-controls="collapseUtilities">
-                <i class="fa fa-edit"></i>
+                <i class="fa fa-edit"></i>&nbsp;&nbsp;
                 <span>Đơn hàng</span>
             </a>
             <div id="collapseUtilities" class="collapse" aria-labelledby="headingUtilities"
@@ -70,6 +70,7 @@
 </template>
 <script>
 import SidebarItem from './SidebarItem.vue';
+
 export default {
     
     components: {

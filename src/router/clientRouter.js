@@ -60,8 +60,8 @@ const routes = [
               path: "cart",
               name: "cart",
               meta: {
-                title: "TGiỏ hàng",
-                requireAuth: true,
+                title: "Giỏ hàng",
+                requireAuth: false,
               },
               component: () => import("@/pages/client/CartClient"),
             },
