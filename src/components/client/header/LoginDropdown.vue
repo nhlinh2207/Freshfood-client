@@ -1,31 +1,38 @@
 <template lang="">
-    <li>
+    <li v-if="!isAuthenticated">
         <router-link to="/login"><i class="fa fa-user"></i>&nbsp;&nbsp;Đăng nhập</router-link>
     </li>
-    <li>
+    <li v-if="!isAuthenticated">
         <span> -</span>
     </li>
-    <li>
+    <li v-if="!isAuthenticated">
         <router-link to="/register">Đăng ký</router-link>
     </li>
-    <!-- <li sec:authorize="isAuthenticated()">
+    <li v-if="isAuthenticated">
         <a class="dropdown-toggle" data-toggle="dropdown" href="javascript:void(0)">Xin chào, Nguyễn Hoài Linh</a>    
         <ul class="dropdown-menu">
-            <li class="dropdown-item">
-                <a href="/freshfood/profile">Hồ sơ</a>
+            <li class="dropdown-item text-center">
+                <router-link to="/profile">Hồ sơ</router-link>
             </li>
             <li class="dropdown-item text-center">
-                <a class="text-center" href="/freshfood/history">Lịch sử mua hàng</a>
+                <router-link to="/history">Lịch sử mua hàng</router-link>
             </li>
-            <li class="dropdown-item">
-                <a class="text-center" href="/freshfood/history">Đăng xuất</a>
+            <li @click.prevent="logout" class="dropdown-item text-center">
+                <a>Đăng xuất</a>
             </li>
         </ul>
-    </li> -->
+    </li>
 </template>
 <script>
 export default {
-    
+  watch: {
+  },
+    methods: {
+        logout(){
+            this.$store.commit("authen/LOGOUT");
+            window.location.href = "/";
+        }
+    }
 }
 </script>
 <style scoped>

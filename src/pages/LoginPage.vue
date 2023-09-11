@@ -22,7 +22,7 @@
                         <div class="well">
                             <h2>Khách hàng cũ</h2>
                             <p><strong>Tôi là khách hàng cũ</strong></p>
-                            <form action="/signin" method="POST">
+                            <form method="POST">
                                 <!-- <div th:if="${param.error}" class="alert alert-danger">
                                     Email hoặc password không đúng
                                 </div> -->
@@ -30,18 +30,18 @@
                                     <label class="control-label" for="input-email">
                                         Địa chỉ email
                                     </label>
-                                    <input type="text" name="email" id="input-email" placeholder="Địa chỉ email" class="form-control"/>
+                                    <input type="text" name="email" v-model="formData.email" id="input-email" placeholder="Địa chỉ email" class="form-control"/>
                                 </div>
                                 <div class="form-group">
                                     <label class="control-label" for="input-password">
                                         Mật khẩu
                                     </label>
-                                    <input type="password" name="password" id="input-password" placeholder="Mật khẩu" class="form-control"/>
+                                    <input type="password" name="password" v-model="formData.password" id="input-password" placeholder="Mật khẩu" class="form-control"/>
                                     <router-link to="/forgetPassword">Quên mật khẩu</router-link>
                                 </div>
                                 <div class="method">
                                     <div class="method-control mb-3">
-                                       <input type="submit" class="btn btn-primary" value="Đăng nhập"/>
+                                       <input class="btn btn-primary" @click.prevent="login" value="Đăng nhập"/>
                                     </div>
                                 </div>
                             </form>
@@ -60,9 +60,42 @@
 </template>
 <script>
 import BreadCrumb from '@/components/client/BreadCrumb.vue';
+import {login} from '@/plugins/login'
 export default {
     components: {
         BreadCrumb
+    },
+    data(){
+        return{
+            formData: {
+                email: "",
+                password: ""
+            }
+        }
+    },
+    methods: {
+        async login(){
+            var resp = await login(
+                this.$httpClient,
+                this.formData.email,
+                this.formData.password
+            )
+            
+            if(resp){
+               var {data} = resp
+               // Handle success login data
+               this.handleAuthData(data);
+            }
+        },
+
+        async handleAuthData(data) {
+            this.$store.commit("authen/SET_USER", {username: data.username, email: data.email, role: data.role});
+            this.$store.commit("authen/SET_TOKEN", data.token);
+            if (data.role.includes('ROLE_ADMIN')){
+                window.location.href = "/admin";
+            }
+            window.location.href = "/";
+        },
     }
 }
 </script>

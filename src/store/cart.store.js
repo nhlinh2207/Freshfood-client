@@ -44,7 +44,6 @@ const getters = {
 
 const actions = {
     addToCart: function ( { commit, getters }, payload ) {
-        window.scrollTo({ top: 0, behavior: "smooth" });
         if ( !getters.canAddToCart( payload.product, payload.qty ) ) {
             toastError({
                 msg: "Quá số lượng cho phép của sản phẩm",
