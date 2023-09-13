@@ -3,5 +3,5 @@ export async function login(httpClient, email, password) {
       email,
       password,
     };
-    return await httpClient.post("/user/login", {}, body);
+    return await httpClient.post("/user/login", false, {}, body);
 }

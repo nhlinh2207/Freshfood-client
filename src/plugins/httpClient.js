@@ -36,15 +36,16 @@ export class HttpClient {
       return resultError;
     }
 
-    getOptions(header = {}) {
+    getOptions(header = {}, auth) {
         var options = {
-          headers: buildHeaders(header),
+          headers: buildHeaders(header, auth),
         };
         return options;
     }
 
-    get(url, query = {}, headers = {}) {
-      let options = this.getOptions(headers);
+    get(url, auth = true, query = {}, headers = {}) {
+      let options = this.getOptions(headers, auth);
+      // console.log(options)
       url = buildUrl(url, query);
   
       return new Promise((resolve) => {
@@ -89,8 +90,8 @@ export class HttpClient {
       });
     }
 
-    post(url, query = {}, body = {}, headers = {}) {
-      let options = this.getOptions(headers);
+    post(url, auth = true, query = {}, body = {}, headers = {}) {
+      let options = this.getOptions(headers, auth);
       url = buildUrl(url, query);  
       return new Promise((resolve) => {
         this.axiosInstance
@@ -100,8 +101,8 @@ export class HttpClient {
       });
     }
   
-    put(url, query = {}, body = {}, headers = {}) {
-      let options = this.getOptions(headers);
+    put(url, auth = true,  query = {}, body = {}, headers = {}) {
+      let options = this.getOptions(headers, auth);
       url = buildUrl(url, query);
   
       return new Promise((resolve) => {
@@ -112,8 +113,8 @@ export class HttpClient {
       });
     }
   
-    delete(url, query = {}, headers = {}) {
-      let options = this.getOptions(headers);
+    delete(url, auth = true, query = {}, headers = {}) {
+      let options = this.getOptions(headers, auth);
       url = buildUrl(url, query);
   
       return new Promise((resolve) => {
@@ -252,15 +253,15 @@ export class ApiResponse {
   }
 }
 
-export function getDefaultRequestHeaders() {
+export function getDefaultRequestHeaders(auth) {
     return {
       "Content-Type": "application/json",
-      Authorization: localStorage.getItem(process.env.VUE_APP_ACCESS_TOKEN),
+      Authorization: auth ? "Bearer "+localStorage.getItem(process.env.VUE_APP_ACCESS_TOKEN) : null,
     };
 }
 
-export function buildHeaders(headers) {
-    let requestHeaders = getDefaultRequestHeaders();
+export function buildHeaders(headers, auth) {
+    let requestHeaders = getDefaultRequestHeaders(auth);
 
     if (!headers) {
       return requestHeaders;

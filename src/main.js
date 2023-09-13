@@ -7,6 +7,8 @@ import '@fortawesome/fontawesome-free/css/all.css';
 import i18n from '@/lang/i18n';
 import 'vue3-toastify/dist/index.css';
 import mitt from 'mitt';
+import VueSweetalert2 from 'vue-sweetalert2';
+import 'sweetalert2/dist/sweetalert2.min.css';
 import store from './store';
 import { commonMixin } from '@/mixins/commonMixins';
 
@@ -16,6 +18,7 @@ app.config.globalProperties.emitter = emitter;
 app.mixin(commonMixin)
 app.use(router)
 app.use(i18n)
+app.use(VueSweetalert2)
 app.use(store)
 
 
