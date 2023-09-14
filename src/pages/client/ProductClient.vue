@@ -7,10 +7,10 @@
             <div class="container">
                 <div class="row">
                     <div class="clearfix"></div>
-                    <!-- <div th:if="${productList.size() == 0}" class=" text-center col-sm-12 col-md-12 col-lg-9 order-lg-2">
+                    <div v-if="products.length == 0" class=" text-center col-sm-12 col-md-12 col-lg-9 order-lg-2">
                         <h3>Không có sản phẩm cần tìm !</h3>
-                    </div> -->
-                    <div th:if="${productList.size() > 0}" class="col-sm-12 col-md-12 col-lg-9 order-lg-2">
+                    </div>
+                    <div v-if="products.length > 0" class="col-sm-12 col-md-12 col-lg-9 order-lg-2">
                         <div class="category-products products">
                             <div class="sortPagiBar">
                                 <div class="row">
@@ -44,14 +44,14 @@
                                             <div class="view-mode float-left">
                                                 <a href="javascript:void(0)" id="grid-view" data-toggle="tooltip" title="Lưới">
                                                     <label class="text-sm-left">
-                                                        <b @click="activeGridMode" class="btn button-view-mode view-mode-grid" :class="{active : showingMode === 1}">
+                                                        <b @click="changeShowingMode(1)" class="btn button-view-mode view-mode-grid" :class="{active : showingMode === 1}">
                                                             <i class="fa fa-th" aria-hidden="true"></i>
                                                         </b>
                                                     </label>
                                                 </a>
                                                 <a href="javascript:void(0)" id="list-view" data-toggle="tooltip" title="Danh sách">
                                                     <label class="text-sm-left">
-                                                        <b  @click="activeListMode" class="btn button-view-mode view-mode-list" :class="{active : showingMode === 0}">
+                                                        <b  @click="changeShowingMode(0)" class="btn button-view-mode view-mode-list" :class="{active : showingMode === 0}">
                                                             <i class="fa fa-th-list" aria-hidden="true"></i>
                                                         </b>
                                                     </label>
@@ -63,9 +63,9 @@
                             </div>
                             <section class="product-view product-view-list">
                                 <!-- Grid Product Mode -->
-                                <GridProductMode v-show="showingMode === 1" />
+                                <GridProductMode :products="products" v-show="showingMode === 1" />
                                 <!-- List Product Mode -->
-                                <ListProductMode v-show="showingMode === 0"/>
+                                <ListProductMode :products="products" v-show="showingMode === 0"/>
                                 <!-- Pagination -->
                                 <div class="text-center">
                                     <ul class="pagination justify-content-center">
@@ -88,23 +88,70 @@
         </section>
     </section>
 </template>
-<script setup>
+<script>
 import BreadCrumb from '@/components/client/BreadCrumb.vue';
 import ListProductMode from '@/components/client/ListProductMode.vue';
 import GridProductMode from '@/components/client/GridProductMode.vue'
 import AsideVerticleMenu from '@/components/client/AsideVerticleMenu.vue';
-import { ref } from 'vue';
+export default{
+    components: {
+        BreadCrumb,
+        ListProductMode,
+        GridProductMode,
+        AsideVerticleMenu
+    },
 
-const showingMode = ref(1);
+    data(){
+        return{
+            showingMode: 1,
+            categories: [],
+            products: [],
+            sortBy: 'createTime',
+            sortDir: 'desc',
+            page: 0,
+            size: 16,
+            totalPages: null,
+            categoryId: ''
+        }
+    },
 
-const activeGridMode = () => {
-    showingMode.value = 1
+    methods: {     
+        changeShowingMode(val){
+           this.showingMode = val
+        },
+
+        async searchProduct(page, sortBy, sortDir, categoryId){
+            this.page = page == null ? 0 : page;
+            this.sortBy = sortBy == null ? 'createTime' : sortBy;
+            this.sortDir = sortDir == null ? 'desc' : sortDir
+            this.categoryId = categoryId == null ? this.categoryId : categoryId
+            await this.loadProduct();
+        },
+
+        async loadCategory(){
+            var resp = await this.$httpClient.get("/category/getAll", true)
+            if(!resp.result){
+                return this.showErrorMsg(resp.message)
+            }
+            this.categories = resp.data
+        },
+
+        async loadProduct(){
+            var resp = await this.$httpClient.get("/product/getAll", true, {page: this.page, size: this.size, search: this.searchText, sortBy: this.sortBy, sortDir: this.sortDir, categoryId: this.categoryId})
+            if(!resp.result){
+                return this.showErrorMsg(resp.message)
+            }
+            this.products = resp.data.data
+            this.totalPages = resp.totalPages
+            this.page = resp.currentPage
+        },
+    },
+
+    beforeMount(){
+        this.loadCategory();
+        this.loadProduct();
+    },
 }
-
-const activeListMode = () => {
-    showingMode.value = 0
-}
-
 
 </script>
 <style scoped>

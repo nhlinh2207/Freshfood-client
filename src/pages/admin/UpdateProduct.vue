@@ -57,7 +57,7 @@
                     </div>
                 </div>
                 <div class="row d-flex align-items-center justify-content-center">
-                    <input @click.prevent="submitForm" class="mt-4 mb-4 btn btn-success" type="submit" value="Thêm mới"/>
+                    <input @click.prevent="submitForm" class="mt-4 mb-4 btn btn-success" type="submit" value="Cập nhật"/>
                 </div>
             </form>
         </div>
@@ -65,6 +65,8 @@
 </template>
 <script>
 import BreadCrumb from '@/components/client/BreadCrumb.vue';
+import {useRoute} from 'vue-router'
+
 export default{
     components: {
        BreadCrumb
@@ -74,6 +76,7 @@ export default{
         return{
             categories: [],
             formData: {
+                id: useRoute().params.id,
                name: '',
                description: '',
                mainImage: '',
@@ -88,6 +91,7 @@ export default{
 
     beforeMount(){
         this.loadCategory();
+        this.loadProductDetail();
     },
 
     methods: {
@@ -129,11 +133,12 @@ export default{
         },
 
         async submitForm(){
-            var resp = await this.$httpClient.post("/product/create", true, {}, this.formData)
+            var resp = await this.$httpClient.put("/product/update", true, {}, this.formData)
             if(!resp.result){
                 this.showErrorMsg(resp.message)
             }
-            this.showSuccessMsg("Thêm mới thành công")
+            this.showSuccessMsg("Cập nhật thành công")
+            this.loadProductDetail();
         },
  
         async loadCategory(){
@@ -142,6 +147,15 @@ export default{
                 return this.showErrorMsg(resp.message)
             }
             this.categories = resp.data
+        },
+
+        async loadProductDetail(){
+            var resp = await this.$httpClient.get("/product/findById", true, {id: this.formData.id})
+            if(!resp.result){
+                return this.showErrorMsg(resp.message)
+            }
+            this.formData = resp.data
+            console.log(this.formData)
         }
     },
 

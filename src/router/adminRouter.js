@@ -39,6 +39,15 @@ const routes = [
                 },
                 component: () => import("@/pages/admin/AddProduct"),
             },
+            {
+              path: "updateProduct/:id",
+              name: "updateProduct",
+              meta: {
+                title: "Cập nhật sản phẩm",
+              },
+              props: true,
+              component: () => import("@/pages/admin/UpdateProduct"),
+            },
         ]
     }
 ]

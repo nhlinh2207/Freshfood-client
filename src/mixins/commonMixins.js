@@ -9,6 +9,9 @@ export const commonMixin = {
         $httpClient() {
           return new HttpClient("http://localhost:8080");
         },
+        searchText(){
+          return this.$store.getters["search/searchText"] || "";
+        }
     },
     methods: {
       showErrorMsg(msg){

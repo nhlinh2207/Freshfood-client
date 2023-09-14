@@ -57,7 +57,6 @@ export default {
     data(){
         return{
             categories: [],
-            message: '',
             formData: {
                 name: ''
             }
@@ -71,7 +70,6 @@ export default {
                 return this.showErrorMsg(resp.message)
             }
             this.categories = resp.data
-            this.message = resp.message
         },
 
 
