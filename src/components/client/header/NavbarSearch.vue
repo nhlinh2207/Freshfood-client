@@ -20,8 +20,12 @@ export default {
 
     methods: {
         searchProduct(){
-            this.$store.commit("search/SEARCH_PRODUCT", {searchText: this.searchText});
-            this.$router.push('/product');
+            // Nếu ở trang khác thì chuyển về /product
+            if (this.$route.path === '/product'){
+                this.emitter.emit('searchProduct', {searchText: this.searchText})
+            }else{
+                this.$router.push('/product?search='+this.searchText);
+            }
         }
     }
 }

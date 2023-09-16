@@ -9,29 +9,9 @@
             <div class="aside-content">
                 <div class="nav-category navbar-toggleable-md">
                     <ul class="nav navbar-pills">
-                        <li class="nav-item">
+                        <li class="nav-item" v-for="(category, index) in categories" :key="index">
                             <i class="fa fa-arrow-circle-right" aria-hidden="true"></i>
-                            <a class="nav-link">Thịt tươi</a>
-                        </li>
-                        <li class="nav-item">
-                            <i class="fa fa-arrow-circle-right" aria-hidden="true"></i>
-                            <a class="nav-link">Thịt tươi</a>
-                        </li>
-                        <li class="nav-item">
-                            <i class="fa fa-arrow-circle-right" aria-hidden="true"></i>
-                            <a class="nav-link">Thịt tươi</a>
-                        </li>
-                        <li class="nav-item">
-                            <i class="fa fa-arrow-circle-right" aria-hidden="true"></i>
-                            <a class="nav-link">Thịt tươi</a>
-                        </li>
-                        <li class="nav-item">
-                            <i class="fa fa-arrow-circle-right" aria-hidden="true"></i>
-                            <a class="nav-link">Thịt tươi</a>
-                        </li>
-                        <li class="nav-item">
-                            <i class="fa fa-arrow-circle-right" aria-hidden="true"></i>
-                            <a class="nav-link">Thịt tươi</a>
+                            <a style="cursor: pointer" class="nav-link" @click.prevent="handleClick(category.id)">{{category.name}}</a>
                         </li>
                     </ul>
                  </div>
@@ -41,7 +21,20 @@
 </template>
 <script>
 export default {
-    
+    props: {
+        categories: Array
+    },
+
+    methods: {
+        handleClick(id){
+            // Nếu ở trang khác thì chuyển về /product
+            if (this.$route.path === '/product'){
+                this.$emit('updateCategoryId', id)
+            }else{
+                this.$router.push('/product?categoryId='+id);
+            }
+        }
+    }
 }
 </script>
 <style lang="">

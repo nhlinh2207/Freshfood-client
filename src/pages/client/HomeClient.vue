@@ -12,7 +12,7 @@
                            <ClientBigBannerCarousel />
                         </div>
                         <div class="col-sm-12 col-md-12 col-lg-3 col-left">
-                            <AsideVerticleMenu/>
+                            <AsideVerticleMenu :categories="categories"/>
                         </div>
                     </div>
                 </div>
@@ -173,8 +173,19 @@ export default {
 
     data(){
         return{
-            tabIndex : 0
+            tabIndex : 0,
+            categories: []
         }
+    },
+
+    methods:{
+        async loadCategory(){
+            var resp = await this.$httpClient.get("/category/getAll", false)
+            if(!resp.result){
+                return this.showErrorMsg(resp.message)
+            }
+            this.categories = resp.data
+        },
     },
 
     mounted() {
@@ -182,6 +193,10 @@ export default {
            this.tabIndex = data.tabIndex;
            alert(this.tabIndex)
         });
+    },
+
+    beforeMount(){
+        this.loadCategory();
     },
 
     beforeUnmount() {

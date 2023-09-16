@@ -24,19 +24,19 @@
                                                     </span> 
                                                     <ul class="dropdown-menu">
                                                         <li class="dropdown-item">
-                                                            <a th:href="@{/freshfood/san-pham?sort=creTime&sortdir=asc}">Mặc định</a>
+                                                            <a @click.prevent="updateSort('craeteTime', 'desc')" >Mặc định</a>
                                                         </li>
                                                         <li class="dropdown-item">
-                                                            <a th:href="@{'/freshfood/san-pham?sort=name&sortdir=asc'+${search != null ? '&search='+search : ''}}">Tên (A-Z)</a>
+                                                            <a @click.prevent="updateSort('name', 'asc')">Tên (A-Z)</a>
                                                         </li>
                                                         <li class="dropdown-item">
-                                                            <a th:href="@{'/freshfood/san-pham?sort=name&sortdir=desc'+${search != null ? '&search='+search : ''}}">Tên (Z-A)</a>
+                                                            <a @click.prevent="updateSort('name', 'desc')">Tên (Z-A)</a>
                                                         </li>
                                                         <li class="dropdown-item">
-                                                            <a th:href="@{'/freshfood/san-pham?sort=price&sortdir=asc'+${search != null ? '&search='+search : ''}}">Giá (Thấp-Cao)</a>
+                                                            <a @click.prevent="updateSort('price', 'asc')">Giá (Thấp-Cao)</a>
                                                         </li>
                                                         <li class="dropdown-item">
-                                                             <a th:href="@{'/freshfood/san-pham?sort=price&sortdir=desc'+${search != null ? '&search='+search : ''}}">Giá (Cao-Thấp)</a>
+                                                             <a @click.prevent="updateSort('price', 'desc')">Giá (Cao-Thấp)</a>
                                                         </li>
                                                     </ul>
                                                 </div>
@@ -69,11 +69,11 @@
                                 <!-- Pagination -->
                                 <div class="text-center">
                                     <ul class="pagination justify-content-center">
-                                        <li class="page-item page-move"><a class="page-link">|&lt;</a></li>
-                                        <li class="page-item page-move"><a class="page-link">&lt;</a></li>
-                                        <li class="page-item active"><a class="page-link">1</a></li>
-                                        <li class="page-item page-move"><a class="page-link">&gt;</a></li>
-                                        <li class="page-item page-move"><a class="page-link">&gt;|</a></li>
+                                        <li v-if="page > 0" class="page-item page-move"><a @click.prevent="updatePage(0)" class="page-link">|&lt;</a></li>
+                                        <li v-if="page > 0" class="page-item page-move"><a @click.prevent="updatePage(page - 1)" class="page-link">&lt;</a></li>
+                                        <li v-for="index in totalPages" :key="index" class="page-item" :class="{active : page === (index - 1)}"><a @click.prevent="updatePage(index - 1)" class="page-link">{{index}}</a></li>
+                                        <li v-if="page < totalPages - 1" class="page-item page-move"><a  @click.prevent="updatePage(page + 1)" class="page-link">&gt;</a></li>
+                                        <li v-if="page < totalPages - 1" class="page-item page-move"><a  @click.prevent="updatePage(totalPages - 1)" class="page-link">&gt;|</a></li>
                                     </ul>
                                 </div>
                             </section>
@@ -81,7 +81,7 @@
                     </div>
                     <!-- Aside Verticle Menu -->
                     <div class="col-sm-12 col-md-12 col-lg-3">
-                        <AsideVerticleMenu />
+                        <AsideVerticleMenu :categories="categories" @updateCategoryId="handleUpdateCategoryId"/>
                     </div>
                 </div>
             </div>
@@ -109,27 +109,39 @@ export default{
             sortBy: 'createTime',
             sortDir: 'desc',
             page: 0,
-            size: 16,
+            size: 1,
             totalPages: null,
-            categoryId: ''
+            categoryId: this.$route.query.categoryId || '',
+            search: this.$route.query.search || ''
         }
     },
 
     methods: {     
+
         changeShowingMode(val){
            this.showingMode = val
         },
 
-        async searchProduct(page, sortBy, sortDir, categoryId){
-            this.page = page == null ? 0 : page;
-            this.sortBy = sortBy == null ? 'createTime' : sortBy;
-            this.sortDir = sortDir == null ? 'desc' : sortDir
-            this.categoryId = categoryId == null ? this.categoryId : categoryId
-            await this.loadProduct();
+        handleUpdateCategoryId(id){
+            this.categoryId = id
+            this.search =''
+            this.page = 0
+            this.loadProduct();    
+        },
+
+        updateSort(sortBy, sortDir){
+            this.sortBy = sortBy;
+            this.sortDir = sortDir;
+            this.loadProduct();    
+        },
+
+        updatePage(val){
+            this.page = val;
+            this.loadProduct();    
         },
 
         async loadCategory(){
-            var resp = await this.$httpClient.get("/category/getAll", true)
+            var resp = await this.$httpClient.get("/category/getAll", false)
             if(!resp.result){
                 return this.showErrorMsg(resp.message)
             }
@@ -137,13 +149,13 @@ export default{
         },
 
         async loadProduct(){
-            var resp = await this.$httpClient.get("/product/getAll", true, {page: this.page, size: this.size, search: this.searchText, sortBy: this.sortBy, sortDir: this.sortDir, categoryId: this.categoryId})
+            var resp = await this.$httpClient.get("/product/getAll", false, {page: this.page, size: this.size, search: this.search, sortBy: this.sortBy, sortDir: this.sortDir, categoryId: this.categoryId})
             if(!resp.result){
                 return this.showErrorMsg(resp.message)
             }
             this.products = resp.data.data
-            this.totalPages = resp.totalPages
-            this.page = resp.currentPage
+            this.totalPages = resp.data.totalPages
+            this.page = resp.data.currentPage
         },
     },
 
@@ -151,11 +163,23 @@ export default{
         this.loadCategory();
         this.loadProduct();
     },
+
+    mounted() {
+        this.emitter.on('searchProduct', (data) => {
+           this.search = data.searchText;
+           this.categoryId = ''
+           this.page = 0
+           this.loadProduct();
+        });
+    },
 }
 
 </script>
 <style scoped>
     .page-item{
         cursor: pointer;
+    }
+    .dropdown-item a{
+        cursor: pointer
     }
 </style>
