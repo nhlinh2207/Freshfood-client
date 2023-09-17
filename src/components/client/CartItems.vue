@@ -1,26 +1,26 @@
 <template lang="">
     <ul id="cart-slidebar" class="mini-products-list count_li textcenter">
-        <li class="no-item"> 
+        <li v-if="cart.length == 0" class="no-item"> 
             <p class="text-center">Giỏ hàng của bạn trống!</p>
         </li>
-        <!-- <li th:if = "${cartitems.size() > 0}" class="list-item-cart">
+        <li v-else class="list-item-cart">
             <ul>
-                <li th:each="citem : ${cartitems}" class="item product-id-123">
+                <li v-for="item in cart" :key="item.id" class="item product-id-123">
                     <div class="border_list">
-                        <a class="product-image" title="Rau">
-                            <img th:src="${citem.product.ProductExtraImagePath1}" width="100"/>
+                        <a class="product-image" :title="item.name">
+                            <img :src="item.extraImage1" width="100"/>
                         </a>
                         <div class="detail-item">
                             <div class="product-details">
                                 <p class="product-name">
-                                    <a href="#" th:title="${citem.product.name}">[[${citem.product.name}]]</a>
+                                    <router-link :to="'/product/'+item.id" :title="item.name">{{item.name}}</router-link>
                                 </p>
                             </div>
                             <div class="product-details-bottom">
-                                <span class="price">[[${citem.product.PriceCurrency}]]</span>
-                                <a th:item-id="${citem.id}" onclick= "del(this)" title="Xóa" class="remove-item-cart fa">x</a>
+                                <span class="price">{{convertCurrency(item.price)}}</span>
+                                <a @click.prevent="removeFromCart({id: item.id})" title="Xóa" class="remove-item-cart fa">x</a>
                                 <div class="quantity-select qty_drop_cart">
-                                    <span class="input-text number-slidebar">x [[${citem.quantity}]]</span>
+                                    <span class="input-text number-slidebar">x {{item.qty}}</span>
                                 </div>
                             </div>
                         </div>
@@ -28,30 +28,43 @@
                 </li>
             </ul>
         </li>
-        <li th:if = "${cartitems.size() > 0}" class = "pd">
+        <li v-if="cart.length > 0" class = "pd">
             <div class="top-subtotal">
                 <div class="clearfix">
-                    Thành tiền: <span class="price ">[[${tongtien}]]</span>
+                    Thành tiền: <span class="price ">{{convertCurrency(totalPrice)}}</span>
                 </div>
                 <div class="clearfix">
-                    Tông tiền: <span class="price">[[${tongtien}]]</span>
+                    Tông tiền: <span class="price">{{convertCurrency(totalPrice)}}</span>
                 </div>
             </div>
         </li>
-        <li th:if = "${cartitems.size() > 0}" style="display: flex; align-items: center; justify-content: space-between" class = "text-center pd right_ct">
-            <a class="btn btn-primary mr-3" th:href="@{/freshfood/checkout}">
+        <li v-if = "cart.length > 0" style="display: flex; align-items: center; justify-content: space-between" class = "text-center pd right_ct">
+            <router-link class="btn btn-primary mr-3" to="/cart">
                 <span>Chi tiết</span>
-            </a>
+            </router-link>
 
-            <a class="btn btn-success" th:href="@{/freshfood/thanh-toan}">
+            <router-link class="btn btn-success" to="/checkout">
                 <span>Thanh toán</span>
-            </a>
-        </li> -->
+            </router-link>
+        </li>
     </ul>
 </template>
 <script>
+import { mapActions } from 'vuex';
 export default {
-    
+
+    computed: {
+        cart(){
+            return this.$store.getters["cart/cartList"] || [];
+        },
+        totalPrice(){
+            return this.$store.getters["cart/priceTotal"] || 0;
+        }
+    },
+
+    methods:{
+        ...mapActions('cart', ['removeFromCart']),
+    }
 }
 </script>
 <style lang="">

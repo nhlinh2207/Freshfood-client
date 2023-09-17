@@ -27,7 +27,7 @@
                     </h3>
                     <div class="price-box">
                         <div class="special-price">
-                            <span>{{product.price}}</span>
+                            <span>{{convertCurrency(product.price)}}</span>
                         </div>
                     </div>
                 </div>

@@ -19,7 +19,7 @@
                                             <div id="sort-by">
                                                 <label class="d-none d-md-block">Sắp xếp theo: </label>
                                                 <div>
-                                                    <span class="dropdown-toggle" data-toggle="dropdown">Mặc định
+                                                    <span style="cursor: pointer" class="dropdown-toggle" data-toggle="dropdown">Mặc định
                                                         <i class="fa fa-angle-down" aria-hidden="true"></i>    
                                                     </span> 
                                                     <ul class="dropdown-menu">

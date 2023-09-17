@@ -56,7 +56,7 @@
                                                         <span class="qtyplus" data-field="quantity" @click="increaseQuantity">+</span>                                          
                                                     </div>
                                                     <button class="float-left btn btn-lg btn-primary btn-cart btn-cart2 add_to_cart btn_buy add_to_cart"
-                                                        @click.prevent="addToCart({product: null})"
+                                                        @click.prevent="addToCart({product: product, qty: quantity})"
                                                         type="button" id="button-cart" data-loading-text="Đang tải...">
                                                         <span>Thêm vào giỏ <i class="fa .fa-caret-right"></i></span>
                                                     </button>  
@@ -136,7 +136,6 @@ export default{
                 return this.showErrorMsg(resp.message)
             }
             this.product = resp.data
-            console.log(this.product)
         },
     },
 

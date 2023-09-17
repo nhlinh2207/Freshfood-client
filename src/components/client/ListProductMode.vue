@@ -14,7 +14,7 @@
                     <div class="price-box clearfix">
                         <div class="special-price float-left">
                             <span class="price product-price">
-                                {{product.price}}
+                                {{convertCurrency(product.price)}}
                             </span>
                         </div>
                     </div>

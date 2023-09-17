@@ -26,29 +26,29 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr cartitem-id="1">
+                                        <tr v-for="item in cart" :key="item.id">
                                             <td class="text-center">
-                                                <img src="" title="Thịt tươi" alt="Thịt tươi" />
+                                                <img :src="item.extraImage1" :title="item.name" :alt="item.name" />
                                             </td>
                                             <td class="text-center">
-                                                <a href="javascript:void(0)">Thịt tươi</a>
+                                                <a href="javascript:void(0)">{{item.name}}</a>
                                             </td>
-                                            <td class="text-center">20,000đ</td>
+                                            <td class="text-center">{{convertCurrency(item.price)}}</td>
                                             <td class="text-left">
                                                 <div class="input-group btn-block">
-                                                    <input class="form-control" type="text" value="2" size="1" />
+                                                    <input class="form-control" type="text" v-model="item.qty" size="1" />
                                                     <span class="input-group-btn">
-                                                        <button cartitem-id="1" type="button" data-toggle="tooltip" title class="btn btn-primary update-btn" data-original-title="Cập nhật">
+                                                        <button type="button" @click.prevent="updateCart(item)" data-toggle="tooltip" title class="btn btn-primary update-btn" data-original-title="Cập nhật">
                                                             <i class="fa fa-arrow-circle-right"></i>
                                                         </button>
                                                     </span>
                                                 </div>
                                             </td>
                                             <td class="text-center">
-                                                20,000đ
+                                                {{convertCurrency(item.price * item.qty)}}
                                             </td>
                                             <td class="text-center">
-                                                <button type="button" data-toggle="tooltip" title class="btn btn-danger" data-original-title="Xóa">
+                                                <button type="button" @click.prevent="removeFromCart({id: item.id})" data-toggle="tooltip" title class="btn btn-danger" data-original-title="Xóa">
                                                     <i class="fa fa-times-circle"></i>
                                                 </button>
                                             </td>
@@ -63,15 +63,15 @@
                                     <tbody>
                                         <tr>
                                             <td>Thành tiền</td>
-                                            <td><strong>20,000đ</strong></td>
+                                            <td><strong>{{convertCurrency(totalPrice)}}</strong></td>
                                         </tr>
                                         <tr>
                                             <td>Phí vận chuyển</td>
-                                            <td><strong>0</strong></td>
+                                            <td><strong>0 đ</strong></td>
                                         </tr>
                                         <tr>
                                             <td>Tổng cộng</td>
-                                            <td><strong>20,000đ</strong></td>
+                                            <td><strong>{{convertCurrency(totalPrice)}}</strong></td>
                                         </tr>
                                     </tbody>
                                 </table>
@@ -100,9 +100,23 @@
 </template>
 <script>
 import BreadCrumb from '@/components/client/BreadCrumb.vue';
+import { mapActions } from 'vuex';
 export default {
     components: {
         BreadCrumb
+    },
+
+    computed: {
+        cart(){
+            return this.$store.getters["cart/cartList"] || [];
+        },
+        totalPrice(){
+            return this.$store.getters["cart/priceTotal"] || 0;
+        }
+    },
+
+    methods: {
+        ...mapActions('cart', ['removeFromCart', 'updateCart']),
     }
 }
 </script>

@@ -1,5 +1,6 @@
 import { HttpClient } from "@/plugins/httpClient";
 import { toast } from 'vue3-toastify';
+import { convertPriceString } from '@/plugins/helpers'
 
 export const commonMixin = {
     computed: {
@@ -27,6 +28,9 @@ export const commonMixin = {
           position: toast.POSITION.TOP_RIGHT,
           autoClose: 1500
         })
+      },
+      convertCurrency(price){
+        return convertPriceString(price, true)
       }
     },
 }
