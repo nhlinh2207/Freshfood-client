@@ -57,7 +57,35 @@
                                 <div class="panel-body">
                                     <table class="adr-oms table table_order_items">
                                         <tbody id="orderItem">
-                                            
+                                            <tr v-for="item in cart" :key="item.id" class="group-type-1 item-child-0">
+                                                <td>
+                                                    <div class = "row">
+                                                        <div class="table_order_items-cell-thumbnail col-sm-12 col-md-6">
+                                                            <div class="thumbnail">
+                                                                <router-link target="_blank" rel="noopener" :to="'/product/' + item.id" :title="item.name">
+                                                                    <img :src="item.extraImage1" :alt="item.name" width="84" />
+                                                                </router-link>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-sm-12 col-md-6">
+                                                            <div class="table_order_items-cell-detail">
+                                                                <div class="table_order_items-cell-title">
+                                                                    <div class="table_order_items_product_name mb-3">
+                                                                        <router-link target="_blank" rel="noopener" :to="'/product/' + item.id" :title="item.name">
+                                                                            <span class="title" style="font-weight: 600;">{{item.name}}</span>
+                                                                        </router-link>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="table_order_items-cell-price">
+                                                                <div class="tt-price">{{convertCurrency(item.price)}}</div>
+                                                                <div class="quantity">x {{item.qty}}</div>
+                                                                <div class="tt-price">{{convertCurrency(item.price * item.qty)}}</div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                            </tr>
                                         </tbody>
                                     </table>
                                     <div style="border-top:1px solid #ddd" class="text-center pt-3 pb-3">
@@ -69,7 +97,24 @@
                                 <div class="panel-body">
                                     <table class="adr-oms table">
                                         <tbody class="orderSummary">
-                                           
+                                            <tr class="row-total-amount">
+                                                <td class="text-left">Thành tiền</td>
+                                                <td class="text-right">
+                                                    <strong>{{convertCurrency(totalPrice)}}</strong>
+                                                </td>
+                                            </tr>
+                                            <tr class="row-total-amount">
+                                                <td class="text-left">Phí vận chuyển Toàn Quốc</td>
+                                                <td class="text-right">
+                                                    <strong class="">0 đ</strong>
+                                                </td>
+                                            </tr>
+                                            <tr class="row-total-amount">
+                                                <td class="text-left">Tổng số</td>
+                                                <td class="text-right">
+                                                    <strong class="text-danger">{{convertCurrency(totalPrice)}}</strong>
+                                                </td>
+                                            </tr>
                                         </tbody>
                                     </table>
                                 </div>
@@ -78,7 +123,7 @@
                                 <router-link class="pull-left" to="/cart" title="Quay lại giỏ hàng">
                                     <i class="fa fa-mail-reply-all" aria-hidden="true"></i>&nbsp;&nbsp; Quay lại giỏ hàng                                
                                 </router-link>
-                                <button class="btn btn-primary pull-right" @click.prevent="saveOrder" type="button" id="submit_form_button">
+                                <button class="btn btn-primary pull-right" @click.prevent="createOrder" type="button" id="submit_form_button">
                                     Đặt hàng
                                 </button>
                             </div>
@@ -98,6 +143,12 @@ import { computed } from 'vue';
 import { required, email, minLength, helpers } from '@vuelidate/validators'
 import {$allNumber, $emptyValue} from '@/validators/custom.validator.js'
 import { reactive } from 'vue';
+import { HttpClient } from "@/plugins/httpClient";
+import { useStore } from 'vuex';
+import { inject } from 'vue'
+
+const $swal = inject('$swal')
+const store = useStore();
 
 const formData = reactive({
     fullName: "",
@@ -137,12 +188,37 @@ const rules = computed(() => {
 
 const v$ = useValidate(rules, formData)
 
-
-const saveOrder = async () => {
+const createOrder = async () => {
     const result = await v$.value.$validate();
-    console.log(formData)
     if(result){
-        alert("okokokok")
+        // Show sweetAlert to confirm order
+        $swal({
+            title: 'Are you sure ?',
+            text: "Do you want to make order ?",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes'
+        }).then(async (result) => {
+            if (result.isConfirmed) {
+                var resp = await new HttpClient("http://localhost:8080").post("/cart/create", true, {}, {...formData, cartItems: cart.value})
+                if(!resp.result){
+                    return $swal({
+                        title: 'Không thành công',                       
+                        text: resp.message,
+                        icon: 'error',
+                    })
+                }
+                store.commit("cart/CLEAR_CART")
+                window.scrollTo({ top: 0, behavior: "smooth" });
+                $swal({
+                   title: 'Thành công',                       
+                   text: "Đặt hàng thành công",
+                   icon: 'success',
+                })
+            }
+        })
     }else{
         // Scroll Back to top if catch Error
         window.scroll({
@@ -152,6 +228,14 @@ const saveOrder = async () => {
         });
     }
 }
+
+const cart = computed(() => {
+    return  store.getters["cart/cartList"] || [];
+})
+
+const totalPrice = computed(() => {
+    return  store.getters["cart/priceTotal"] || 0;
+})
 
 </script>
 <style scoped>

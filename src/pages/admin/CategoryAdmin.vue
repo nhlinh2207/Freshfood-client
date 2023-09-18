@@ -101,7 +101,7 @@ export default {
         async createCategory(){
             var resp = await this.$httpClient.post("/category/create", true, {}, this.formData)
             if(!resp.result){
-                this.showErrorMsg(resp.message)
+                return this.showErrorMsg(resp.message)
             }
             this.showSuccessMsg("Thêm mới thành công")
             this.loadCategory();
