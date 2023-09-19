@@ -8,19 +8,20 @@
 <script>
 export default {
     props: {
-        categories: Array
+        categories: Array,
+        tabOrder: String
     },
 
     data() {
         return {
-            currentTab : 2,
+            currentTab : 0
         }
     },
 
     methods: {
         changeTab(index) {
             this.currentTab = index
-            this.emitter.emit('product-tab-change', { tabIndex: this.currentTab });
+            this.emitter.emit('product-tab-change', { tabIndex: this.tabOrder === "1" ? this.currentTab : this.currentTab + 3 });
         }
     }
 }

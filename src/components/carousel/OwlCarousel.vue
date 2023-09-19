@@ -65,8 +65,8 @@
       <div class="item">
         <div class="product-box">
           <div class="product-thumbnail flexbox-grid">
-            <router-link :to="'/product?id='+product.id" :title="product.name">
-              <img :src= "require('@/assets/images/'+product.imageUrl)" :alt="product.name" />
+            <router-link :to="'/product/'+product.id" :title="product.name">
+              <img :src= "product.mainImage" :alt="product.name" />
             </router-link>
             <div class="product-action d-none">
               <form class="form variants form-nut-grid margin-bottom-0">
@@ -89,7 +89,7 @@
             </h3>
             <div class="price-box">
               <div class="special-price">
-                <span>{{product.price}}</span>
+                <span>{{convertCurrency(product.price)}}</span>
               </div>
             </div>
           </div>

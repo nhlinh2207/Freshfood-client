@@ -47,11 +47,11 @@
                                                                     <h2>Cơm bình dân</h2>
                                                                 </div>
                                                                 <div>
-                                                                    <ProductTab :categories="['Cơm bình dân', 'Bánh mỳ', 'Đồ uống']" /> 
+                                                                    <ProductTab tabOrder="1" :categories="['Cơm bình dân', 'Bánh mỳ', 'Đồ uống']" /> 
                                                                     <!-- Product Carousel -->
                                                                     <div class="category-custom20 tab-content active" id="category_custom20">
                                                                         <div class="product product-view-grid owl-carousel" data-nav="true" data-xl-items="4" data-lg-items="4" data-md-items="4" data-sm-items="3" data-xs-items="2" data-xss-items="2">
-                                                                            <ProductCarousel />
+                                                                            <ProductCarousel :productList="products1" />
                                                                         </div>
                                                                     </div>
                                                                 </div>
@@ -82,11 +82,11 @@
                                                                     <h2>Hoa quả tươi</h2>
                                                                 </div>
                                                                 <div>
-                                                                    <ProductTab :categories="['Hoa quả tươi', 'Đồ ăn nhẹ', 'Sinh tố']" /> 
+                                                                    <ProductTab tabOrder="2" :categories="['Hoa quả tươi', 'Đồ ăn nhẹ', 'Sinh tố']" /> 
                                                                     <!-- Product Carousel -->
                                                                     <div class="category-custom20 tab-content active" id="category_custom20">
                                                                         <div class="product product-view-grid owl-carousel" data-nav="true" data-xl-items="4" data-lg-items="4" data-md-items="4" data-sm-items="3" data-xs-items="2" data-xss-items="2">
-                                                                            <ProductCarousel />
+                                                                            <ProductCarousel :productList="products2" />
                                                                         </div>
                                                                     </div>
                                                                 </div>
@@ -173,8 +173,11 @@ export default {
 
     data(){
         return{
-            tabIndex : 0,
-            categories: []
+            tabIndex1 : 0,
+            tabIndex2: 3,
+            categories: [],
+            products1: [],
+            products2: []
         }
     },
 
@@ -186,17 +189,42 @@ export default {
             }
             this.categories = resp.data
         },
+
+        async loadProduct1(){
+            var resp = await this.$httpClient.get("/product/findByCategory", false, {categoryId: this.tabIndex1+1})
+            if(!resp.result){
+                return this.showErrorMsg(resp.message)
+            }
+            this.products1 = resp.data
+            console.log(this.products1)
+        },
+
+        async loadProduct2(){
+            var resp = await this.$httpClient.get("/product/findByCategory", false, {categoryId: this.tabIndex2+1})
+            if(!resp.result){
+                return this.showErrorMsg(resp.message)
+            }
+            this.products2 = resp.data
+            console.log(this.products2)
+        }
     },
 
     mounted() {
         this.emitter.on('product-tab-change', (data) => {
-           this.tabIndex = data.tabIndex;
-           alert(this.tabIndex)
+            if(data.tabIndex < 3){
+                this.tabIndex1 = data.tabIndex
+                this.loadProduct1()
+            }else{
+                this.tabIndex2 = data.tabIndex;
+                this.loadProduct2()
+            }
         });
     },
 
     beforeMount(){
         this.loadCategory();
+        this.loadProduct1();
+        this.loadProduct2();
     },
 
     beforeUnmount() {

@@ -4,9 +4,7 @@
         <div :class="'col-sm-12 col-md-'+col">
             <select :name="field" :id="'input-'+field" class="form-control" @change="selectOption">
                 <option value=''> --- Chọn --- </option>
-                <option value='1'>Hà Nội</option>
-                <option value='2'>Tp. Hồ Chí Minh</option>
-                <option value='3'>Đà Nẵng</option>
+                <option v-for="item in data" :key="item.id" :value='item.id'>{{item.name}}</option>
             </select>
             <div class="text-danger" v-show="error">{{errMsg}}</div>
         </div>
@@ -14,6 +12,10 @@
 </template>
 <script>
 export default {
+  data () {
+    return {
+    }
+  },
     props: {
         type : String,
         field : String,
@@ -21,7 +23,8 @@ export default {
         modelValue : String,
         error: Boolean,
         errMsg: String,
-        col: Number
+        col: Number,
+        data: Array
     },
 
     emits: ["update:modelValue"],
@@ -29,6 +32,7 @@ export default {
     methods: {
         selectOption(e) {
             this.$emit('update:modelValue', e.target.value)
+            this.$emit('value-change', e.target.value) 
         }
     }
 }

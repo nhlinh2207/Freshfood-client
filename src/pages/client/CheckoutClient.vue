@@ -202,7 +202,7 @@ const createOrder = async () => {
             confirmButtonText: 'Yes'
         }).then(async (result) => {
             if (result.isConfirmed) {
-                var resp = await new HttpClient("http://localhost:8080").post("/cart/create", true, {}, {...formData, cartItems: cart.value})
+                var resp = await new HttpClient(process.env.VUE_APP_BASE_URL).post("/cart/create", true, {}, {...formData, cartItems: cart.value})
                 if(!resp.result){
                     return $swal({
                         title: 'Không thành công',                       

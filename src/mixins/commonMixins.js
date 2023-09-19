@@ -8,7 +8,7 @@ export const commonMixin = {
           return this.$store.getters["authen/getToken"] || "";
         },
         $httpClient() {
-          return new HttpClient("http://localhost:8080");
+          return new HttpClient(process.env.VUE_APP_BASE_URL);
         }
     },
     methods: {

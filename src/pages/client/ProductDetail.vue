@@ -33,7 +33,7 @@
                                         </div>
                                         <div class="clearfix price-box">
                                             <span class="special-price"> 
-                                                <span class="price product-price">{{product.price}}</span>
+                                                <span class="price product-price">{{convertCurrency(product.price)}}</span>
                                             </span>
                                             <span class="old-price">
                                                 <del class="price product-price-old">{{product.price}}</del>

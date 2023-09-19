@@ -46,7 +46,7 @@ export class HttpClient {
     get(url, auth = true, query = {}, headers = {}) {
       let options = this.getOptions(headers, auth);
       url = buildUrl(url, query);
-      console.log(url)
+      // console.log(url)
   
       return new Promise((resolve) => {
         this.axiosInstance
