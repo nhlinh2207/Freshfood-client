@@ -42,6 +42,7 @@
                                 <div class="method">
                                     <div class="method-control mb-3">
                                        <input class="btn btn-primary" @click.prevent="login" value="Đăng nhập"/>
+                                       <input class="btn btn-primary" @click.prevent="getToken" value="Lấy token"/>
                                     </div>
                                 </div>
                             </form>
@@ -61,6 +62,8 @@
 <script>
 import BreadCrumb from '@/components/client/BreadCrumb.vue';
 import {login} from '@/plugins/login'
+import {getFCMToken} from '@/plugins/firebase'
+
 export default {
     components: {
         BreadCrumb
@@ -74,6 +77,10 @@ export default {
         }
     },
     methods: {
+        getToken(){
+            getFCMToken()
+        },
+
         async login(){
             var resp = await login(
                 this.$httpClient,

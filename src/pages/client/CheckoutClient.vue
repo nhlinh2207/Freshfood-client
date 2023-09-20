@@ -26,10 +26,10 @@
                                     </div>
                                     <div class="row">
                                         <div class="col-sm-6">
-                                            <InputDropdown :col="8" :error="v$.countryId.$error" :errMsg="v$.countryId.$error ? v$.countryId.$errors[0].$message : ''" field="country" placeHolder="Quốc gia" v-model="formData.countryId" />
+                                            <InputDropdown :data="countries" :col="8" :error="v$.countryId.$error" :errMsg="v$.countryId.$error ? v$.countryId.$errors[0].$message : ''" field="country" placeHolder="Quốc gia" v-model="formData.countryId" @value-change="loadCity" />
                                         </div>
                                         <div class="col-sm-6">
-                                            <InputDropdown :col="8" :error="v$.cityId.$error" :errMsg="v$.cityId.$error ? v$.cityId.$errors[0].$message : ''" field="city" placeHolder="Tỉnh / TP" v-model="formData.cityId" />
+                                            <InputDropdown :data="cities" :col="8" :error="v$.cityId.$error" :errMsg="v$.cityId.$error ? v$.cityId.$errors[0].$message : ''" field="city" placeHolder="Tỉnh / TP" v-model="formData.cityId" />
                                         </div>
                                     </div>
                                     <div class="row">
@@ -139,13 +139,12 @@ import BreadCrumb from '@/components/client/BreadCrumb.vue';
 import InputText from '@/components/client/InputText.vue';
 import InputDropdown from '@/components/client/InputDropdown.vue'
 import useValidate from '@vuelidate/core'
-import { computed } from 'vue';
 import { required, email, minLength, helpers } from '@vuelidate/validators'
 import {$allNumber, $emptyValue} from '@/validators/custom.validator.js'
-import { reactive } from 'vue';
+import { reactive, ref, onBeforeMount, inject, computed } from 'vue';
 import { HttpClient } from "@/plugins/httpClient";
 import { useStore } from 'vuex';
-import { inject } from 'vue'
+import { toast } from 'vue3-toastify';
 
 const $swal = inject('$swal')
 const store = useStore();
@@ -159,6 +158,9 @@ const formData = reactive({
     cityId: "",
     orderMessage: ""
 })
+
+const countries = ref([])
+const cities = ref([])
 
 const rules = computed(() => {
     return{
@@ -235,6 +237,35 @@ const cart = computed(() => {
 
 const totalPrice = computed(() => {
     return  store.getters["cart/priceTotal"] || 0;
+})
+
+const loadCountry = async () => {
+    var resp = await new HttpClient(process.env.VUE_APP_BASE_URL).get("/address/country/getAll", false)
+    if(!resp.result){
+        return toast.error("Không load country thành công", {
+           transition: toast.TRANSITIONS.ZOOM,
+           position: toast.POSITION.TOP_RIGHT,
+           autoClose: 1500
+        });
+    }
+    countries.value = resp.data
+}
+
+const loadCity = async (countryId) => {
+    var resp = await new HttpClient(process.env.VUE_APP_BASE_URL).get("/address/city/findByCountry", false, {countryId: countryId})
+    if(!resp.result){
+        return toast.error("Không load city thành công", {
+           transition: toast.TRANSITIONS.ZOOM,
+           position: toast.POSITION.TOP_RIGHT,
+           autoClose: 1500
+        });
+    }
+    cities.value = resp.data
+    console.log(cities.value)
+}
+
+onBeforeMount(() => {
+    loadCountry()
 })
 
 </script>

@@ -38,11 +38,13 @@
 <script setup>
 import useValidate from '@vuelidate/core'
 import CKEditor from '@ckeditor/ckeditor5-vue';
-import { computed } from 'vue';
 import { required, email, helpers } from '@vuelidate/validators'
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import '@ckeditor/ckeditor5-build-classic/build/translations/vi';
-import { reactive } from 'vue';
+import { reactive, inject, computed } from 'vue';
+import { HttpClient } from "@/plugins/httpClient";
+
+const $swal = inject('$swal')
 
 const editor = ClassicEditor
 const editorConfig = {
@@ -75,7 +77,32 @@ const v$ = useValidate(rules, formData)
 const submitContactForm = async () => {
     const result = await v$.value.$validate();
     if(result){
-        alert("okokokok")
+        $swal({
+            title: 'Are you sure ?',
+            text: "Do you want to send contact message ?",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes'
+        }).then(async (result) => {
+            if (result.isConfirmed) {
+                var resp = await new HttpClient(process.env.VUE_APP_BASE_URL).post("/user/contact", true, {}, formData)
+                if(!resp.result){
+                    return $swal({
+                        title: 'Gửi thành công',                       
+                        text: resp.message,
+                        icon: 'error',
+                    })
+                }
+                window.scrollTo({ top: 0, behavior: "smooth" });
+                $swal({
+                   title: 'Thành công',                       
+                   text: "Gửi lời nhắn thành công",
+                   icon: 'success',
+                })
+            }
+        })
     }else{
         // Scroll Back to top if catch Error
         window.scroll({

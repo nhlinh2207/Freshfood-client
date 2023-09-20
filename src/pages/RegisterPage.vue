@@ -23,7 +23,7 @@
                             <legend>Địa chỉ</legend>
                             <InputText :col="10" type="text" field="company" placeHolder="Công ty" />
                             <InputDropdown :data="countries" :col="10" :error="v$.countryId.$error" :errMsg="v$.countryId.$error ? v$.countryId.$errors[0].$message : ''" placeHolder="Quốc gia" v-model="formData.countryId" @value-change="loadCity"/>
-                            <InputDropdown :col="10" :error="v$.cityId.$error" :errMsg="v$.cityId.$error ? v$.cityId.$errors[0].$message : ''" placeHolder="Tỉnh / TP" v-model="formData.cityId" />
+                            <InputDropdown :data="cities" :col="10" :error="v$.cityId.$error" :errMsg="v$.cityId.$error ? v$.cityId.$errors[0].$message : ''" placeHolder="Tỉnh / TP" v-model="formData.cityId" />
                             <InputText :col="10" type="text" :error="v$.fullAddress.$error" :errMsg="v$.fullAddress.$error ? v$.fullAddress.$errors[0].$message : ''" placeHolder="Địa chỉ chi tiết" v-model="formData.fullAddress" />
                         </fieldset>
                         <fieldset  class="mt-4">
@@ -187,7 +187,7 @@ const loadCountry = async () => {
 }
 
 const loadCity = async (countryId) => {
-    var resp = await new HttpClient(process.env.VUE_APP_BASE_URL).get("/address/city/getAll", false, {countryId: countryId})
+    var resp = await new HttpClient(process.env.VUE_APP_BASE_URL).get("/address/city/findByCountry", false, {countryId: countryId})
     if(!resp.result){
         return toast.error("Không load city thành công", {
            transition: toast.TRANSITIONS.ZOOM,
@@ -196,6 +196,7 @@ const loadCity = async (countryId) => {
         });
     }
     cities.value = resp.data
+    console.log(cities.value)
 }
 
 onBeforeMount(() => {
