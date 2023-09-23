@@ -42,7 +42,7 @@
                                 <div class="method">
                                     <div class="method-control mb-3">
                                        <input class="btn btn-primary" @click.prevent="login" value="Đăng nhập"/>
-                                       <input class="btn btn-primary" @click.prevent="getToken" value="Lấy token"/>
+                                       <input class="btn btn-primary" @click.prevent="testToast" value="Đăng nhập"/>
                                     </div>
                                 </div>
                             </form>
@@ -72,20 +72,24 @@ export default {
         return{
             formData: {
                 email: "",
-                password: ""
+                password: "",
+                fcmWebToken: ""
             }
         }
     },
     methods: {
-        getToken(){
-            getFCMToken()
+       
+        testToast(){
+           this.testInfoMsg('hello')
         },
 
         async login(){
+            this.formData.fcmWebToken = await getFCMToken()
             var resp = await login(
                 this.$httpClient,
                 this.formData.email,
-                this.formData.password
+                this.formData.password,
+                this.formData.fcmWebToken
             )
             
             if(resp){
@@ -103,7 +107,8 @@ export default {
             }
             window.location.href = "/";
         },
-    }
+    },
+    
 }
 </script>
 <style lang="">

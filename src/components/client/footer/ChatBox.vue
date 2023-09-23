@@ -1,6 +1,6 @@
 <template lang="">
     <div class="chatbox" style="line-height: normal">
-        <div class="chatbox__support chatbox--close">
+        <div class="chatbox__support" :class="[activeChatbox ? 'chatbox--active' : 'chatbox--close']">
             <div class="chatbox__header">
                 <div class="chatbox__content--header text-center">
                     <h4 style="color: white">Freshfood Chat Box</h4>
@@ -21,14 +21,40 @@
                 <img src="@/assets/images/logo/attachment.svg" alt="" />
             </div>
         </div>
-        <div class="chatbox__button">
+        <div class="chatbox__button" @click.prevent="toggleChatbox">
             <img style="width: 50px; height: auto" src="@/assets/images/logo/icon-logo.png" />
         </div>
     </div>
 </template>
 <script>
+import {connect, disconnect} from '@/plugins/websocket'
+
 export default {
-    
+    data(){
+        return{
+           activeChatbox : false
+        }
+    },
+    methods: {
+        toggleChatbox(){
+           this.activeChatbox = !this.activeChatbox
+           if(this.activeChatbox){
+              try{    
+                connect(1);
+                console.log("socket : thanhf coong")
+                // stompClient.subscribe('/topic/' + chatRoomId + '.public.messages', publicMessages);
+                // stompClient.subscribe('/user/queue/' + chatRoomId + '.old.messages', oldMessages);
+              }catch(err){
+                console.log("err socket: "+err)
+              }
+           }else{
+              disconnect();
+           }
+        },
+        
+
+    }
+
 }
 </script>
 <style lang="">

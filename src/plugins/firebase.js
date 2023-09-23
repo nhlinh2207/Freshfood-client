@@ -1,5 +1,5 @@
 import { initializeApp } from "firebase/app";
-import { getMessaging, getToken  } from "firebase/messaging";
+import { getMessaging, getToken } from "firebase/messaging";
 
 const firebaseConfig = {
   apiKey: "AIzaSyCt6-1wELxeIwLRDmMr5yF-wysX_rWSpMs",
@@ -11,26 +11,25 @@ const firebaseConfig = {
   measurementId: "G-F1C9PVLJBD"
 };
 
-const vapidKey = 'BG3FmTLynMjAwfZH3dq3UsxzoZbxCnDVRuyjIkMCzD0V7P1iA0WVHhBrVvCPtyEneyw5cgL3S6Zv_pgkn0NDSnI'
-
 const app = initializeApp(firebaseConfig);
 export const messaging = getMessaging(app);
-// onMessage(messaging, (payload) => {
-//     console.log('Message received. ', payload);
-//     // ...
-// });
 
-export function getFCMToken(){
-  getToken(messaging, { vapidKey: vapidKey })
+export async function getFCMToken(){
+  return new Promise((resolve, reject) => {
+    getToken(messaging, { vapidKey: 'BG3FmTLynMjAwfZH3dq3UsxzoZbxCnDVRuyjIkMCzD0V7P1iA0WVHhBrVvCPtyEneyw5cgL3S6Zv_pgkn0NDSnI' })
     .then((currentToken) => {
       if (currentToken) {
-        console.log(currentToken)
+        // console.log(currentToken)
+        return resolve(currentToken)
       } else {
-        alert('No registration token available. Request permission to generate one.');
+        console.error('No registration token available. Request permission to generate one.');
+        return ''
       }
     }).catch((err) => {
-      alert('An error occurred while retrieving token. ', err);
+       console.error('An error occurred while retrieving token. ', err);
+       return reject(err)
     });
+  })
 }
 
  
