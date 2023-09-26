@@ -109,10 +109,10 @@ export default{
     },
     data () {
         return {
-           quantity: 1,
-           route: useRoute(),
-           productId: useRoute().params.id,
-           product: {}
+            quantity: 1,
+            route: useRoute(),
+            productId: useRoute().params.id,
+            product: {}
         }
     },
     methods: {

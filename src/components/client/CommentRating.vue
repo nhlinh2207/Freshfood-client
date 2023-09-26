@@ -40,7 +40,7 @@
                                 <fieldset class="form-group required">
                                     <div class="">
                                         <label class="control-label" for="input-review">Nội dung đánh giá</label>
-                                        <textarea name="ratingContent" rows="5" id="input-review" class="form-control"></textarea>
+                                        <textarea v-model="ratingForm.ratingComment" name="ratingContent" rows="5" id="input-review" class="form-control"></textarea>
                                         <div class="help-block"><span class="text-danger">Chú ý:</span> Không sử dụng các định dạng HTML!</div>
                                     </div>
                                 </fieldset>
@@ -48,16 +48,16 @@
                                     <div class="rating_review">
                                         <label class="control-label"><strong>Xếp hạng</strong></label>
                                         &nbsp;&nbsp;&nbsp; Chưa tốt&nbsp;
-                                        <input type="radio" name="ratingValue" value="1">&nbsp;
-                                        <input type="radio" name="ratingValue" value="2">&nbsp;
-                                        <input type="radio" name="ratingValue" value="3">&nbsp;
-                                        <input type="radio" name="ratingValue" value="4">&nbsp;
-                                        <input type="radio" name="ratingValue" value="5">&nbsp;
+                                        <input type="radio" name="ratingValue" value="1" :checked="ratingForm.ratingValue === 1" @change="updateRatingValue(1)">&nbsp;
+                                        <input type="radio" name="ratingValue" value="2" :checked="ratingForm.ratingValue === 2" @change="updateRatingValue(2)">&nbsp;
+                                        <input type="radio" name="ratingValue" value="3" :checked="ratingForm.ratingValue === 3" @change="updateRatingValue(3)">&nbsp;
+                                        <input type="radio" name="ratingValue" value="4" :checked="ratingForm.ratingValue === 4" @change="updateRatingValue(4)">&nbsp;
+                                        <input type="radio" name="ratingValue" value="5" :checked="ratingForm.ratingValue === 5" @change="updateRatingValue(5)">&nbsp;
                                         Tốt
                                     </div>
                                     <div class="buttons clearfix">
                                         <div class="pull-right">
-                                            <button type="button" onclick="sendRating()" id="button-rating" class="btn btn-primary">Gửi đánh giá</button>
+                                            <button type="button" @click.prevent="sendRating" id="button-rating" class="btn btn-primary">Gửi đánh giá</button>
                                         </div>
                                     </div>
                                 </fieldset>
@@ -74,7 +74,11 @@ export default{
     data(){
         return {
             isCommentTab : false,
-            isRatingTab : true
+            isRatingTab : true,
+            ratingForm:{
+                ratingValue: 0,
+                ratingComment: ''
+            }
         }
     },
 
@@ -87,6 +91,28 @@ export default{
         activeRatingTab(){
             this.isCommentTab = false;
             this.isRatingTab = true;
+        },
+        sendRating(){
+            this.$swal({
+               title: 'Are you sure ?',
+               text: "Do you want to send rating ?",
+               icon: 'warning',
+               showCancelButton: true,
+               confirmButtonColor: '#3085d6',
+               cancelButtonColor: '#d33',
+               confirmButtonText: 'Yes'
+            }).then(async (result) => {
+                if (result.isConfirmed) {
+                   var resp = await this.$httpClient.post("/rating/create", true, {}, this.ratingForm)
+                   if(!resp.result){
+                        return this.$swal({
+                           title: 'Gửi đánh giá không thành công',                       
+                           text: resp.message,
+                           icon: 'error',
+                        })
+                    }
+                }
+            })
         }
     }
 }

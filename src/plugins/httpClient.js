@@ -20,7 +20,7 @@ export class HttpClient {
         if (status == 401) {
           // Remove all localstorage
           removeLocalStorage(process.env.VUE_APP_USER);
-          removeLocalStorage(process.env.FRESHFOOD_ACCESS_TOKEN);
+          removeLocalStorage(process.env.VUE_APP_ACCESS_TOKEN);
           removeLocalStorage(process.env.VUE_APP_ROLE);
   
           // await sleep(1000);
