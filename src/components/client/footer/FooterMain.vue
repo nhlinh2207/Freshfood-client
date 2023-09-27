@@ -30,7 +30,7 @@
                             </div>
                         </div>
                         <!-- Chat box -->
-                        <ChatBox />
+                        <ChatBox v-if="isAuthenticated"/>
                         <!-- Scroll to top -->
                        <AngleScrollTop />
                     </div>

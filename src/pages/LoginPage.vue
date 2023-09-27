@@ -42,7 +42,7 @@
                                 <div class="method">
                                     <div class="method-control mb-3">
                                        <input class="btn btn-primary" @click.prevent="login" value="Đăng nhập"/>
-                                       <input class="btn btn-primary" @click.prevent="testToast" value="Đăng nhập"/>
+                                       <!-- <input class="btn btn-primary" @click.prevent="testToast" value="Đăng nhập"/> -->
                                     </div>
                                 </div>
                             </form>

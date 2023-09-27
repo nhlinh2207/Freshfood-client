@@ -69,7 +69,7 @@
                                     </div>
                                 </div>
                                 <!-- Commment and rating -->
-                                <CommentRating/>
+                                <CommentRating :productId="productId"/>
                             </div>
                         </div>
                     </div>

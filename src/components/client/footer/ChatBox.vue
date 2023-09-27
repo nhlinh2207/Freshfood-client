@@ -99,8 +99,9 @@ export default {
         },
 
         scrollDownMessagesPanel() {
-        //    $(".chatbox__messages").animate({"scrollTop": newMessages[0].scrollHeight}, "fast");
-           console.log("okokoko")
+            const chatboxMessages = document.querySelector(".chatbox__messages");
+            chatboxMessages.scrollTop = chatboxMessages.scrollHeight;
+            // $(".chatbox__messages").animate({"scrollTop": newMessages[0].scrollHeight}, "fast");
         },
 
         appendPublicMessage(instantMessage) {
@@ -110,11 +111,13 @@ export default {
                 div.innerHTML =
                     '<div class="messages__item messages__item--visitor">' +
                        '<p style="margin: 0">'+instantMessage.content+'</p>' +
+                       '<p style="margin: 5px 0 0 0; font-size: 12px; text-align: right">'+instantMessage.createTime+'</p>'+
                     '</div>';
             } else {
                 div.innerHTML =
                     '<div class="messages__item messages__item--operator">' +
                        '<p style="margin: 0">'+instantMessage.content+'</p>' +
+                       '<p style="margin: 5px 0 0 0; font-size: 12px; text-align: right">'+instantMessage.createTime+'</p>'+
                     '</div>';
             }
             chatContent.appendChild(div)
