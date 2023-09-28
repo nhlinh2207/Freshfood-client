@@ -111,40 +111,18 @@
                 <h6 class="dropdown-header">
                     Messages
                 </h6>
-                <a class="dropdown-item d-flex align-items-center" href="#">
+                <a v-for="c in chatBoxList" :key="c.id" @click.prevent="selectChatBox(c.id)" class="dropdown-item d-flex align-items-center" href="#">
                     <div class="mr-3">
                         <div class="icon-circle bg-primary">
                             <i class="fas fa-file-alt text-white"></i>
                         </div>
                     </div>
                     <div>
-                        <div class="small text-gray-500">December 12, 2019</div>
-                        <span class="font-weight-bold">A new monthly report is ready to download!</span>
+                        <div class="small text-gray-500">{{c.latestTime}}</div>
+                        <span class="font-weight-bold">{{c.latestMessage}}</span>
                     </div>
                 </a>
-                <a class="dropdown-item d-flex align-items-center" href="#">
-                    <div class="mr-3">
-                        <div class="icon-circle bg-success">
-                            <i class="fas fa-donate text-white"></i>
-                        </div>
-                    </div>
-                    <div>
-                        <div class="small text-gray-500">December 7, 2019</div>
-                        $290.29 has been deposited into your account!
-                    </div>
-                </a>
-                <a class="dropdown-item d-flex align-items-center" href="#">
-                    <div class="mr-3">
-                        <div class="icon-circle bg-warning">
-                            <i class="fas fa-exclamation-triangle text-white"></i>
-                        </div>
-                    </div>
-                    <div>
-                        <div class="small text-gray-500">December 2, 2019</div>
-                        Spending Alert: We've noticed unusually high spending for your account.
-                    </div>
-                </a>
-                <a class="dropdown-item text-center small text-gray-500" href="#">Show All Alerts</a>
+                <a class="dropdown-item text-center small text-gray-500" href="#">Show All Messages</a>
             </div>
         </li>
 
@@ -173,10 +151,8 @@
                     Activity Log
                 </a>
                 <div class="dropdown-divider"></div>
-                <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">
-                    <form action="/logout" style="background-color:none !important; outline: none !important;" method="POST">
-                        <input class="w-100" type="submit" th:value="Logout"/>
-                    </form>
+                <a class="dropdown-item text-center" href="#" @click.prevent="logout">
+                    Log out
                 </a>
             </div>
         </li>
@@ -185,6 +161,35 @@
 </template>
 <script>
 export default {
+
+    data(){
+        return{
+            chatBoxList: []
+        }
+    },
+
+    methods: {
+        async getChatBoxList(){
+            var resp = await this.$httpClient.get("/chatroom/findByAdmin", true, {})
+            if(!resp.result){
+                return this.showErrorMsg(resp.message)
+            }
+            this.chatBoxList = resp.data
+        },
+
+        selectChatBox(chatRoomId){
+             console.log(chatRoomId);
+        },
+
+        logout(){
+            this.$store.commit("authen/LOGOUT");
+            window.location.href = "/";
+        }
+    },
+
+    beforeMount(){
+        this.getChatBoxList();
+    }
 }
 </script>
 <style scoped>

@@ -11,6 +11,7 @@ import VueSweetalert2 from 'vue-sweetalert2';
 import 'sweetalert2/dist/sweetalert2.min.css';
 import store from './store';
 import { commonMixin } from '@/mixins/commonMixins';
+import VueApexCharts from "vue3-apexcharts";
 
 const emitter = mitt();
 var app = createApp(App)
@@ -20,6 +21,7 @@ app.use(router)
 app.use(i18n)
 app.use(VueSweetalert2)
 app.use(store)
+app.use(VueApexCharts);
 
 
 app.mount('#app')

@@ -6,8 +6,10 @@
                <!-- Main Content -->
                <div id="content">
                     <HeaderAdmin/>  
-                        <RouterView :key="$route.fullPath"/>
-                    <FooterAdmin/>            
+                    <RouterView :key="$route.fullPath"/>
+                    <AngleScrollTop /> 
+                    <FooterAdmin/>   
+                    <!-- <AngleScrollTop />          -->
                </div>
             </div>
         </div>
@@ -18,12 +20,15 @@ import {useRoute, useRouter, RouterView} from 'vue-router'
 import SideBar from '@/components/admin/SideBar.vue';
 import HeaderAdmin from '@/components/admin/header/HeaderAdmin.vue';
 import FooterAdmin from '@/components/admin/footer/FooterAdmin.vue';
+import AngleScrollTop from '@/components/admin/footer/AngleScrollTop.vue';
 export default {
+ 
     components: {
         SideBar,
         HeaderAdmin,
         FooterAdmin,
-        RouterView
+        RouterView,
+        AngleScrollTop
     },
 
     data(){

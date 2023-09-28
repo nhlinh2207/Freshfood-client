@@ -103,9 +103,9 @@ export default {
             this.$store.commit("authen/SET_USER", {username: data.username, email: data.email, role: data.role});
             this.$store.commit("authen/SET_TOKEN", data.token);
             if (data.role.includes('ROLE_ADMIN')){
-                window.location.href = "/admin";
+                return window.location.href = "/admin";
             }
-            window.location.href = "/";
+            return window.location.href = "/";
         },
     },
     
