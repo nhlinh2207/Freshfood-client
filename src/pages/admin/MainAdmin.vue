@@ -7,9 +7,7 @@
                <div id="content">
                     <HeaderAdmin/>  
                     <RouterView :key="$route.fullPath"/>
-                    <AngleScrollTop /> 
                     <FooterAdmin/>   
-                    <!-- <AngleScrollTop />          -->
                </div>
             </div>
         </div>
@@ -20,7 +18,6 @@ import {useRoute, useRouter, RouterView} from 'vue-router'
 import SideBar from '@/components/admin/SideBar.vue';
 import HeaderAdmin from '@/components/admin/header/HeaderAdmin.vue';
 import FooterAdmin from '@/components/admin/footer/FooterAdmin.vue';
-import AngleScrollTop from '@/components/admin/footer/AngleScrollTop.vue';
 export default {
  
     components: {
@@ -28,7 +25,6 @@ export default {
         HeaderAdmin,
         FooterAdmin,
         RouterView,
-        AngleScrollTop
     },
 
     data(){
@@ -41,5 +37,5 @@ export default {
 </script>
 <style scoped>
     @import "@/assets/css/sb-admin-2.min.css"; 
-
+    @import '@/assets/css/chatbox.css';
 </style>

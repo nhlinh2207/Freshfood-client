@@ -48,6 +48,41 @@ const routes = [
               props: true,
               component: () => import("@/pages/admin/UpdateProduct"),
             },
+            {
+              path: "cart/:type",
+              name: "cart",
+              meta: {
+                title: "Đơn hàng",
+              },
+              props: true,
+              component: () => import("@/pages/admin/CartAdmin"),
+            },
+            {
+              path: "cartDetail/:id",
+              name: "cart-detail",
+              meta: {
+                title: "Chi tiết đơn hàng",
+              },
+              props: true,
+              component: () => import("@/pages/admin/CartDetail"),
+            },
+            {
+              path: "user",
+              name: "user",
+              meta: {
+                title: "Quản lý người dùng",
+              },
+              component: () => import("@/pages/admin/UserManage"),
+          },
+          {
+            path: "userProfile/:id",
+            name: "user-profile",
+            meta: {
+              title: "Thông tin người dùng",
+            },
+            props: true,
+            component: () => import("@/pages/admin/UserProfile"),
+          },
         ]
     }
 ]

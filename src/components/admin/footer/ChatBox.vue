@@ -1,7 +1,7 @@
 <template lang="">
     <div class="chatbox" style="line-height: normal">
-        <div class="chatbox__support" :class="[activeChatbox ? 'chatbox--active' : 'chatbox--close']">
-            <div class="chatbox__header d-flex justify-content-between align-items-center">
+		<div class="chatbox__support" :class="[activeChatbox ? 'chatbox--active' : 'chatbox--close']">
+			<div class="chatbox__header d-flex justify-content-between align-items-center">
 				<div class="chatbox__content--header text-center">
 					<h5 style="color: white">Freshfood Chat Box</h5>
 				</div>
@@ -9,31 +9,27 @@
                     <h4 style="font-weight: bold; color: white; cursor: pointer" @click="closeChatBox">x</h4>
 				</div>
 			</div>
-            <div class="chatbox__messages">
-                <div>
-                    <div id="chatbox-messages">
-                        <!-- Chat messages content -->
-                    </div>
-                </div>
-            </div>
-            <div class="chatbox__footer">
-                <img src="@/assets/images/logo/emojis.svg" alt="" />
+			<div class="chatbox__messages">
+				<div>
+					<div id="chatbox-messages">
+					<!-- Chat messages content -->
+					</div>
+				</div>
+			</div>
+			<div class="chatbox__footer">
+				<img src="@/assets/images/logo/emojis.svg" alt="" />
                 <img src="@/assets/images/logo/microphone.svg" alt="" />
                 <img src="@/assets/images/logo/attachment.svg" alt="" />
                 <input v-model="inputMessage" id="input-message" type="text" placeholder="Write a message..." />
                 <p @click.prevent="sendMessage" id="send-message" style="margin: 0; cursor: pointer" class="chatbox__send--footer">Send</p>
-            </div>
-        </div>
-        <div class="chatbox__button" @click.prevent="toggleChatbox">
-            <img style="width: 50px; height: auto" src="@/assets/images/logo/icon-logo.png" />
-        </div>
-    </div>
+			</div>
+		</div>
+	</div>
 </template>
 <script>
 import SockJS from 'sockjs-client';
 import Stomp from 'webstomp-client';
 import { getLocalStorage } from "@/plugins/helpers";
-
 export default {
     data(){
         return{
@@ -46,21 +42,6 @@ export default {
     },
     methods: {
 
-        async toggleChatbox(){
-            this.activeChatbox = !this.activeChatbox
-            if(this.activeChatbox){
-                var resp = await this.$httpClient.get("/chatroom/findByUser", true)
-                if(!resp.result){
-                   return this.showErrorMsg(resp.message)
-                }
-                this.chatRoomId = resp.data.id
-                console.log("chatRoom id: "+this.chatRoomId)
-                this.connect();
-            }else{
-                this.disconnect();
-            }
-        },
-    
         closeChatBox(){
             this.activeChatbox = false;
             this.disconnect();
@@ -110,6 +91,7 @@ export default {
         scrollDownMessagesPanel() {
             const chatboxMessages = document.querySelector(".chatbox__messages");
             chatboxMessages.scrollTop = chatboxMessages.scrollHeight;
+            // $(".chatbox__messages").animate({"scrollTop": newMessages[0].scrollHeight}, "fast");
         },
 
         appendPublicMessage(instantMessage) {
@@ -117,13 +99,13 @@ export default {
             const div = document.createElement('div');
             if (instantMessage.senderType == "ADMIN") {
                 div.innerHTML =
-                    '<div class="messages__item messages__item--visitor">' +
+                    '<div class="messages__item messages__item--operator">' +
                        '<p style="margin: 0">'+instantMessage.content+'</p>' +
                        '<p style="margin: 5px 0 0 0; font-size: 12px; text-align: right">'+instantMessage.createTime+'</p>'+
                     '</div>';
             } else {
                 div.innerHTML =
-                    '<div class="messages__item messages__item--operator">' +
+                    '<div class="messages__item messages__item--visitor">' +
                        '<p style="margin: 0">'+instantMessage.content+'</p>' +
                        '<p style="margin: 5px 0 0 0; font-size: 12px; text-align: right">'+instantMessage.createTime+'</p>'+
                     '</div>';
@@ -149,13 +131,26 @@ export default {
 
             const instantMessage = {
                 'content' : this.inputMessage,
-                'senderType' : 'USER'
+                'senderType' : 'ADMIN'
             }
             this.stompClient.send("/chatroom/send.message", JSON.stringify(instantMessage), {});
             this.inputMessage = '';
             inputBar.focus();
         },
-    }
+    },
+
+    mounted() {
+        this.emitter.on('openChatBox', (data) => {
+            this.chatRoomId = data.chatRoomId;
+            this.activeChatbox = true;
+            this.connect();
+        });
+    },
+
+    beforeUnmount() {
+        this.emitter.off('openChatBox')
+        this.activeChatbox = false
+    },
 }
 </script>
 <style lang="">

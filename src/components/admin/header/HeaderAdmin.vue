@@ -118,7 +118,7 @@
                         </div>
                     </div>
                     <div>
-                        <div class="small text-gray-500">{{c.latestTime}}</div>
+                        <div class="small text-black-500">{{c.latestTime}}</div>
                         <span class="font-weight-bold">{{c.latestMessage}}</span>
                     </div>
                 </a>
@@ -160,6 +160,8 @@
     </nav>
 </template>
 <script>
+import SockJS from 'sockjs-client';
+import Stomp from 'webstomp-client';
 export default {
 
     data(){
@@ -169,6 +171,27 @@ export default {
     },
 
     methods: {
+
+        connect(){
+            try{    
+                this.socket = new SockJS("http://localhost:8080/ws");
+                this.stompClient = Stomp.over(this.socket)
+                this.stompClient.connect(
+                    {},
+                    frame => {
+                        console.log("socket connect success "+frame);
+                        this.stompClient.subscribe('/topic/all/chatrooms', this.reloadChatBox);
+                    },
+                    error => {
+                       console.log(error);
+                       this.disconnect();
+                    }
+                );
+            }catch(err){
+                console.log("err socket: "+err)
+            }
+        },
+
         async getChatBoxList(){
             var resp = await this.$httpClient.get("/chatroom/findByAdmin", true, {})
             if(!resp.result){
@@ -177,8 +200,13 @@ export default {
             this.chatBoxList = resp.data
         },
 
+        reloadChatBox(message){
+            this.getChatBoxList();
+            this.selectChatBox(message.body);
+        },
+
         selectChatBox(chatRoomId){
-             console.log(chatRoomId);
+            this.emitter.emit('openChatBox', {chatRoomId: chatRoomId})
         },
 
         logout(){
@@ -189,7 +217,10 @@ export default {
 
     beforeMount(){
         this.getChatBoxList();
+        this.connect();
     }
+
+    
 }
 </script>
 <style scoped>

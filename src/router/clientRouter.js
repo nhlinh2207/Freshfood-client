@@ -121,6 +121,23 @@ const routes = [
               },
               component: () => import("@/pages/client/UpdatePassword"),
           },
+          {
+              path: "history",
+              name: "history",
+              meta: {
+                title: "Lịch sử mua hàng"
+              },
+              component: () => import("@/pages/client/CartHistory"),
+          },
+          {
+              path: "cartDetail/:id",
+              name: "cart-detail",
+              meta: {
+                title: "Chi tiết đơn hàng",
+              },
+              props: true,
+              component: () => import("@/pages/client/CartDetail")
+          },
         ]
     }
 ]
