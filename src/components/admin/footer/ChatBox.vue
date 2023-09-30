@@ -91,7 +91,6 @@ export default {
         scrollDownMessagesPanel() {
             const chatboxMessages = document.querySelector(".chatbox__messages");
             chatboxMessages.scrollTop = chatboxMessages.scrollHeight;
-            // $(".chatbox__messages").animate({"scrollTop": newMessages[0].scrollHeight}, "fast");
         },
 
         appendPublicMessage(instantMessage) {
