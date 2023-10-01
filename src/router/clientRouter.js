@@ -61,7 +61,7 @@ const routes = [
               name: "cart",
               meta: {
                 title: "Giỏ hàng",
-                requireAuth: false,
+                requireAuth: true,
               },
               component: () => import("@/pages/client/CartClient"),
             },
@@ -125,15 +125,17 @@ const routes = [
               path: "history",
               name: "history",
               meta: {
-                title: "Lịch sử mua hàng"
+                title: "Lịch sử mua hàng",
+                requireAuth: true,
               },
               component: () => import("@/pages/client/CartHistory"),
           },
           {
               path: "cartDetail/:id",
-              name: "cart-detail",
+              name: "cartDetail",
               meta: {
                 title: "Chi tiết đơn hàng",
+                requireAuth: true,
               },
               props: true,
               component: () => import("@/pages/client/CartDetail")

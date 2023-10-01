@@ -1,7 +1,7 @@
 import ClientRouter from './clientRouter.js'
 import AdminRouter from './adminRouter.js'
 import { createRouter, createWebHistory } from "vue-router"
-
+import { isAuthenticated } from "@/plugins/helpers";
 const routes = [
     ...ClientRouter,
     ...AdminRouter
@@ -17,7 +17,7 @@ router.beforeEach((to, from, next) => {
     const requireAuth = to.matched.some(
         (childRoute) => childRoute.meta.requireAuth
     );
-    if(requireAuth){
+    if(requireAuth && !isAuthenticated()){
         next({name: "login"})
     }else{
         next();

@@ -7,10 +7,10 @@
             <div class="container">
                 <div class="row">
                     <div class="clearfix"></div>
-                    <div class="col-sm-12">
+                    <div class="col-sm-12 text-center" v-if="cart.length == 0"><h3>Giỏ hàng của bạn trống</h3></div>
+                    <div class="col-sm-12" v-else>
                         <div class="d-flex align-items-center justify-content-between">
                             <h3 class="mt-3 mb-4">Giỏ hàng</h3>
-                            <button class="btn btn-primary" data-toggle="tooltip" title data-original-title="Refesh" onclick="loadcartitems()">Refresh</button>
                         </div>
                         <form class="mt-4">
                             <div class="table-responsive table-cart-content">

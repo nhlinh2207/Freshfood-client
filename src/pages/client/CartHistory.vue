@@ -37,6 +37,7 @@
                                            <td class="text-center"><strong>Thời gian đặt hàng</strong></td>
                                            <td class="text-center"><strong>Trạng thái</strong></td>
                                            <td class="text-center"><strong>Thời gian nhận hàng</strong></td>
+                                           <td class="text-center"><strong>Tổng giá</strong></td>
                                            <td class="text-center"><strong>Xem chi tiết</strong></td>
                                        </tr>
                                     </thead>
@@ -46,10 +47,14 @@
                                             <td class="text-center">{{c.orderTime}}</td>
                                             <td class="text-center">{{c.status}}</td>
                                             <td class="text-center">{{c.deliveryTime}}</td>
+                                            <td class="text-center">{{convertCurrency(c.totalPrice)}}</td>
                                             <td class="text-center">
-                                                <router-link :to="'/cartDetail/'+c.id">
+                                                <router-link :to="'/cartDetail/'+c.id" title="Xem chi tiết">
                                                    <i class="fas fa-eye"></i>
-                                                </router-link>  
+                                                </router-link>
+                                                <a v-if="c.status === 'Chưa giao'" @click="deleteCart(c.id)" class="ml-4" title="Hủy đơn hàng">
+                                                    <i class="fas fa-trash"></i>  
+                                                </a>
                                             </td>
                                         </tr>
                                     </tbody>
@@ -104,6 +109,32 @@ export default {
             this.totalPages = resp.data.totalPages
             this.page = resp.data.currentPage
         },
+
+        async deleteCart(id){
+            this.$swal({
+                title: 'Hủy đơn hàng ?',
+                text: "Bạn muốn hủy đơn hàng: "+id,
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Xác nhận!',
+                cancelButtonText: "Hủy"
+            }).then(async (result) => {
+                if (result.isConfirmed) {
+                    var resp = await this.$httpClient.delete("/cart/delete", true, {cartId : id})
+                    if(!resp.result){
+                        return this.showErrorMsg(resp.message)
+                    }
+                    this.$swal({
+                        title: 'Thành công',
+                        text: "Đă hủy đơn hàng: "+id,
+                        icon: 'success',
+                    })
+                    this.loadCarts();
+                }
+            })
+        }
     },
 
     beforeMount(){

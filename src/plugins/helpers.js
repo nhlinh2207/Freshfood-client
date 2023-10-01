@@ -1,5 +1,5 @@
 export const isAuthenticated = () => {
-    return getLocalStorage(process.env.FRESHFOOD_ACCESS_TOKEN) || false;
+    return getLocalStorage(process.env.VUE_APP_ACCESS_TOKEN) || false;
 };
 
 export function setLocalStorage(key, value) {
