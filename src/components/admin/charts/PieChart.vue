@@ -29,10 +29,15 @@
 </template>
 <script>
 export default {
+
+    props:{
+       chartData: Array,
+       chartLabels: Array
+    },
     data(){
         return{
             options: {
-                labels: ["Apple", "Banana", "Cherry", "Date", "Elderberry"],
+                labels: this.chartLabels,
                 dataLabels: {
                     enabled: false,
                 },
@@ -49,7 +54,7 @@ export default {
                     },
                 },
             },
-            series: [44, 55, 13, 43, 22]
+            series: this.chartData
         }
     }
 }

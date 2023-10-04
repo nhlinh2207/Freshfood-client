@@ -1,6 +1,6 @@
 <template lang="">
     <div class="container-fluid">
-        <BreadCrumb breadcrumbType="addProduct" />
+        <BreadCrumb breadcrumbType="updateProduct" />
 
         <div style="margin-left: 30px; margin-right:30px">
             <form enctype="multipart/form-data" method="POST" th:object="${product}">

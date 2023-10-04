@@ -7,7 +7,7 @@
                 <div class="col-sm-12 col-md-6">
                     <div class="form-group d-flex justify-content-center align-items-center" style="margin: 30px 20px;">
                         <input v-model="formData.name" style="width: 300px; margin-right:20px; margin-top: 5px; float:left" class="form-control" type = "text" placeholder="Thêm danh mục" />
-                       <a @click.prevent="createCategory" style="border-radius: 15px" class=" btn btn-success">Thêm danh mục</a>
+                        <a @click.prevent="createCategory" style="border-radius: 15px" class=" btn btn-success">Thêm danh mục</a>
                     </div>
                 </div>
                 <div class="col-sm-12 col-md-6"></div>

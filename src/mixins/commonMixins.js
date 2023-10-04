@@ -3,6 +3,7 @@ import { toast } from 'vue3-toastify';
 import { convertPriceString } from '@/plugins/helpers'
 
 export const commonMixin = {
+  
     computed: {
         isAuthenticated() {
           return this.$store.getters["authen/getToken"] || "";
@@ -11,6 +12,7 @@ export const commonMixin = {
           return new HttpClient(process.env.VUE_APP_BASE_URL);
         }
     },
+
     methods: {
       showErrorMsg(msg){
         window.scrollTo({ top: 0, behavior: "smooth" });
@@ -40,7 +42,6 @@ export const commonMixin = {
           }
         )
       },
-
       showInfoMsg(notification){
         // window.scrollTo({ top: 0, behavior: "smooth" });
         toast.info(
@@ -52,7 +53,6 @@ export const commonMixin = {
           }
         )
       },
-
       convertCurrency(price){
         return convertPriceString(price, true)
       }

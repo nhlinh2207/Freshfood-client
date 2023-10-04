@@ -23,5 +23,4 @@ app.use(VueSweetalert2)
 app.use(store)
 app.use(VueApexCharts);
 
-
 app.mount('#app')

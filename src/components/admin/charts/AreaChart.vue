@@ -30,12 +30,10 @@
 <script>
 export default {
     
-    props:{
-       chartData: Array
+    props: {
+        chartData : Array
     },
 
-    components: {
-    },
     data(){
         return {
             options: {
@@ -55,35 +53,23 @@ export default {
                     }
                 },
                 xaxis: {
-                    categories: [
-                       "Jan",
-                       "Feb",
-                       "Mar",
-                       "Apr",
-                       "May",
-                       "Jun",
-                       "Jul",
-                       "Aug",
-                       "Sep",
-                       "Oct",
-                       "Nov",
-                       "Dec"
-                    ]
+                    categories:  ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
                 },
                 yaxis: {
                     min: 0,
-                    max: 120,
+                    max: 100,
                     tickAmount: 6,
                     labels: {
                         formatter: function (value) {
-                             return value + " đ"; // Định dạng nhãn trục Y
+                            return value+" đ"; // Định dạng nhãn trục Y
                         },
                     }
                 }
             },
             series: [{
                name: 'series-1',
-               data: this.chartData
+               data: [30, 40, 25, 50, 49, 21, 70, 80, 50, 70, 11, 23]
+            //    data: this.chartData  
             }]
         }
     },

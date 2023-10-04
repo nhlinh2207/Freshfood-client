@@ -29,8 +29,8 @@ export function removeLocalStorage(key) {
 }
 
 export const convertPriceString = (val, isVND = false, forceMinus = false) => {
+  if (Number(val) == 0) return isVND ? "0 đ" : "FREE";
   if (!val || isNaN(val)) return "";
-  if (val == 0) return isVND ? "Miễn phí" : "FREE";
   // if (!val || isNaN(val)) return "";
 
   // if val is actually < 0 => forceMinus = true

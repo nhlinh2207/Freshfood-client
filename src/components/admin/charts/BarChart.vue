@@ -15,6 +15,10 @@
 </template>
 <script>
 export default {
+    props:{
+       chartData: Array,
+       chartLabels: Array
+    },
     data(){
         return{
             options: {
@@ -22,7 +26,7 @@ export default {
                    id: "bar-chart",
                 },
                 xaxis: {
-                   categories: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep"],
+                   categories: this.chartLabels,
                 },
                 plotOptions: {
                     bar: {
@@ -45,11 +49,11 @@ export default {
             series: [
             {
                 name: "Serie A",
-                data: [30, 40, 45, 50, 49, 60, 70, 91, 75],
+                data: [30, 40, 45, 50, 49, 60, 70, 91, 75, 10, 77, 98],
             },
             {
                 name: "Serie B",
-                data: [20, 25, 30, 35, 40, 45, 50, 55, 60],
+                data: this.chartData,
             }],
         }
     }

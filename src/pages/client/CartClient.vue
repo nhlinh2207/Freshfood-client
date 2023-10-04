@@ -14,7 +14,7 @@
                         </div>
                         <form class="mt-4">
                             <div class="table-responsive table-cart-content">
-                                <table id="cartitem-table" class="table table-bordered">
+                                <table class="table table-bordered">
                                     <thead>
                                         <tr>
                                             <td class="text-center"><strong>Ảnh</strong></td>
