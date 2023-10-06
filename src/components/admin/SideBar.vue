@@ -38,10 +38,10 @@
         </div>
 
             <!-- Staff -->
-        <SidebarItem url="/admin/staffs" icon="fas fa-user" title="Nhân viên" />
+        <SidebarItem url="/admin/staff" icon="fas fa-user" title="Nhân viên" />
 
         <!-- Nav Item - Charts --> 
-        <SidebarItem url="/admin/users" icon="fas fa-user" title="Khách hàng" />
+        <SidebarItem url="/admin/user" icon="fas fa-user" title="Khách hàng" />
 
         <!-- Cart -->
         <li class="nav-item active">

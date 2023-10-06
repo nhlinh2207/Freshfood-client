@@ -21,7 +21,7 @@
 			<!-- Card Body -->
 			<div class="card-body">
 				<div class="chart-area">
-					<apexchart width="650" height="330" type="area" :options="options" :series="series"></apexchart>
+					<apexchart width="570" height="330" type="area" :options="options" :series="chartData"></apexchart>
 				</div>
 			</div>
 		</div>
@@ -57,20 +57,15 @@ export default {
                 },
                 yaxis: {
                     min: 0,
-                    max: 100,
-                    tickAmount: 6,
+                    max: 200000,
+                    tickAmount: 5,
                     labels: {
                         formatter: function (value) {
                             return value+" đ"; // Định dạng nhãn trục Y
                         },
                     }
                 }
-            },
-            series: [{
-               name: 'series-1',
-               data: [30, 40, 25, 50, 49, 21, 70, 80, 50, 70, 11, 23]
-            //    data: this.chartData  
-            }]
+            }
         }
     },
 }

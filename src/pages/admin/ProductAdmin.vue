@@ -6,7 +6,7 @@
                 <form>
                     <div class="table-responsive table-cart-content">
                         <div class="row">
-                            <div class="col-sm-4">
+                            <div class="col-sm-6">
                                 <div class="header-search search-form">
                                         <div class="form input-group search-bar search-form d-flex align-items-center">
                                             <input type="search" v-model="search" name="search" placeholder="Tìm kiếm" class="input-group-field st-default-search-input search-text" autocomplete="off" />
@@ -18,8 +18,8 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-sm-4 d-flex align-items-center justify-content-center">
-                                <label class="d-none d-md-block mx-5 my-0"><strong>Danh mục sản phẩm: </strong></label>
+                            <div class="col-sm-6 d-flex align-items-center justify-content-center">
+                                <label class="d-none d-md-block mx-5 my-0"><strong>Danh mục: </strong></label>
                                 <div>
                                     <span style="cursor: pointer" class="dropdown-toggle" data-toggle="dropdown">
                                         {{categoryName}}
@@ -32,11 +32,6 @@
                                             <a @click.prevent="updateCategory(c)" >{{c.name}}</a>
                                         </li>
                                     </ul>
-                                </div>
-                            </div>
-                            <div class="col-sm-4 d-flex align-items-center justify-content-center">
-                                <div class="form-group d-flex justify-content-center align-items-center">
-                                    <router-link to="/admin/addProduct" style="border-radius: 15px" class=" btn btn-success">Thêm danh mục</router-link>
                                 </div>
                             </div>
                         </div>

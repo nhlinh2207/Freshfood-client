@@ -7,7 +7,7 @@
             </div>
             <div class="card-body">
                 <div class="dhx-kpi-chart">
-                    <apexchart type="bar" :options="options" :series="series"></apexchart>
+                    <apexchart type="bar" height="400" :options="options" :series="chartData"></apexchart>
                 </div>
             </div>
         </div>
@@ -16,8 +16,7 @@
 <script>
 export default {
     props:{
-       chartData: Array,
-       chartLabels: Array
+       chartData: Array
     },
     data(){
         return{
@@ -26,7 +25,7 @@ export default {
                    id: "bar-chart",
                 },
                 xaxis: {
-                   categories: this.chartLabels,
+                   categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
                 },
                 plotOptions: {
                     bar: {
@@ -45,16 +44,7 @@ export default {
                    horizontalAlign: "left",
                    offsetX: 40,
                 },
-            },
-            series: [
-            {
-                name: "Serie A",
-                data: [30, 40, 45, 50, 49, 60, 70, 91, 75, 10, 77, 98],
-            },
-            {
-                name: "Serie B",
-                data: this.chartData,
-            }],
+            }
         }
     }
 }

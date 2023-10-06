@@ -21,7 +21,7 @@
 			<!-- Card Body -->
 			<div class="card-body">
 				<div class="chart-pie pb-2">
-					<apexchart :options="options" :series="series" type="pie" height="300" width="300" ></apexchart>
+					<apexchart :options="options" :series="chartData" type="pie" height="300" width="255" ></apexchart>
 				</div>
 			</div>
 		</div>
@@ -47,14 +47,13 @@ export default {
                 tooltip: {
                     enabled: true,
                 },
-                colors: ["#ff5722", "#2196f3", "#4caf50", "#ff9800", "#9c27b0"],
+                colors: ["#ff5722", "#2196f3", "#4caf50", "#ff9800", "#9c27b0", "#FF9966", "#CC9900"],
                 plotOptions: {
                     pie: {
                        expandOnClick: true,
                     },
                 },
             },
-            series: this.chartData
         }
     }
 }

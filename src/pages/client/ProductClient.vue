@@ -19,24 +19,24 @@
                                             <div id="sort-by">
                                                 <label class="d-none d-md-block">Sắp xếp theo: </label>
                                                 <div>
-                                                    <span style="cursor: pointer" class="dropdown-toggle" data-toggle="dropdown">Mặc định
+                                                    <span style="cursor: pointer" class="dropdown-toggle" data-toggle="dropdown">{{sortText}}
                                                         <i class="fa fa-angle-down" aria-hidden="true"></i>    
                                                     </span> 
                                                     <ul class="dropdown-menu">
                                                         <li class="dropdown-item">
-                                                            <a @click.prevent="updateSort('craeteTime', 'desc')" >Mặc định</a>
+                                                            <a @click.prevent="updateSort('createTime', 'desc', 'Mặc định')" >Mặc định</a>
                                                         </li>
                                                         <li class="dropdown-item">
-                                                            <a @click.prevent="updateSort('name', 'asc')">Tên (A-Z)</a>
+                                                            <a @click.prevent="updateSort('name', 'asc', 'Tên (A-Z)')">Tên (A-Z)</a>
                                                         </li>
                                                         <li class="dropdown-item">
-                                                            <a @click.prevent="updateSort('name', 'desc')">Tên (Z-A)</a>
+                                                            <a @click.prevent="updateSort('name', 'desc', 'Tên (Z-A)')">Tên (Z-A)</a>
                                                         </li>
                                                         <li class="dropdown-item">
-                                                            <a @click.prevent="updateSort('price', 'asc')">Giá (Thấp-Cao)</a>
+                                                            <a @click.prevent="updateSort('price', 'asc', 'Giá (Thấp-Cao)')">Giá (Thấp-Cao)</a>
                                                         </li>
                                                         <li class="dropdown-item">
-                                                             <a @click.prevent="updateSort('price', 'desc')">Giá (Cao-Thấp)</a>
+                                                             <a @click.prevent="updateSort('price', 'desc', 'Giá (Cao-Thấp)')">Giá (Cao-Thấp)</a>
                                                         </li>
                                                     </ul>
                                                 </div>
@@ -112,7 +112,8 @@ export default{
             size: 1,
             totalPages: null,
             categoryId: this.$route.query.categoryId || '',
-            search: this.$route.query.search || ''
+            search: this.$route.query.search || '',
+            sortText: 'Mặc định'
         }
     },
 
@@ -129,9 +130,10 @@ export default{
             this.loadProduct();    
         },
 
-        updateSort(sortBy, sortDir){
+        updateSort(sortBy, sortDir, sortText){
             this.sortBy = sortBy;
             this.sortDir = sortDir;
+            this.sortText = sortText
             this.loadProduct();    
         },
 
