@@ -21,7 +21,7 @@
 			<!-- Card Body -->
 			<div class="card-body">
 				<div class="chart-pie pb-2">
-					<apexchart :options="options" :series="chartData" type="pie" height="300" width="255" ></apexchart>
+					<apexchart :options="options" :series="chartData" type="pie" height="300" width="260" ></apexchart>
 				</div>
 			</div>
 		</div>

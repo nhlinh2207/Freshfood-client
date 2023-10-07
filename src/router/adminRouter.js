@@ -49,10 +49,10 @@ const routes = [
               component: () => import("@/pages/admin/UpdateProduct"),
             },
             {
-              path: "cartManage/:type",
+              path: "cartManage",
               name: "cartManage",
               meta: {
-                title: "Đơn hàng",
+                title: "Quản lý đơn hàng",
               },
               props: true,
               component: () => import("@/pages/admin/CartAdmin"),

@@ -21,7 +21,7 @@
 			<!-- Card Body -->
 			<div class="card-body">
 				<div class="chart-area">
-					<apexchart width="570" height="330" type="area" :options="options" :series="chartData"></apexchart>
+					<apexchart width="630" height="330" type="area" :options="options" :series="chartData"></apexchart>
 				</div>
 			</div>
 		</div>

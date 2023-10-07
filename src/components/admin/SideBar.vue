@@ -44,20 +44,7 @@
         <SidebarItem url="/admin/user" icon="fas fa-user" title="Khách hàng" />
 
         <!-- Cart -->
-        <li class="nav-item active">
-            <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUtilities"
-                aria-expanded="true" aria-controls="collapseUtilities">
-                <i class="fa fa-edit"></i>&nbsp;&nbsp;
-                <span>Đơn hàng</span>
-            </a>
-            <div id="collapseUtilities" class="collapse" aria-labelledby="headingUtilities"
-                data-parent="#accordionSidebar">
-                    <div class="bg-white py-2 collapse-inner rounded">
-                    <router-link class="collapse-item" to="/admin/don-hang-da-giao">Đã giao</router-link>
-                    <router-link class="collapse-item" to="/dmin/don-hang-chua-giao">Chưa giao</router-link>
-                </div>
-            </div>
-        </li>
+        <SidebarItem url="/admin/cartManage" icon="fa fa-shopping-bag" title="Khách hàng" />
 
         <!-- Divider -->
         <hr class="sidebar-divider d-none d-md-block">
