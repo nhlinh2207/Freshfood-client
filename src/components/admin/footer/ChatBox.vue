@@ -6,7 +6,7 @@
 					<h5 style="color: white">Freshfood Chat Box</h5>
 				</div>
 				<div>
-                    <h4 style="font-weight: bold; color: white; cursor: pointer" @click="closeChatBox">x</h4>
+                    <h4 style="font-weight: bold; color: white; cursor: pointer" @click="closeChatBox"><i class="fa fa-close"></i></h4>
 				</div>
 			</div>
 			<div class="chatbox__messages">

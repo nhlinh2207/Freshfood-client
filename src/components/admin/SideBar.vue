@@ -44,7 +44,7 @@
         <SidebarItem url="/admin/user" icon="fas fa-user" title="Khách hàng" />
 
         <!-- Cart -->
-        <SidebarItem url="/admin/cartManage" icon="fa fa-shopping-bag" title="Khách hàng" />
+        <SidebarItem url="/admin/cartManage" icon="fa fa-shopping-bag" title="Đơn hàng" />
 
         <!-- Divider -->
         <hr class="sidebar-divider d-none d-md-block">

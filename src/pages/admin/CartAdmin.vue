@@ -70,7 +70,7 @@
                                     <td class="text-center">{{c.id}}</td>
                                     <td class="text-center">{{c.receiverName}}</td>
                                     <td class="text-center">{{c.address}}</td>
-                                    <td class="text-center">{{c.totalPrice}}</td>
+                                    <td class="text-center">{{convertCurrency(c.totalPrice)}}</td>
                                     <td class="text-center">{{c.status}}</td>
                                     <td class="text-center">
                                         <router-link :to="'/admin/cartDetail/'+c.id" title="Xem chi tiết">

@@ -15,10 +15,10 @@
                                     </h5>
                                 </div>
                                 <div class="panel-body">
-                                    <InputText col="10" :error="v$.fullName.$error" :errMsg="v$.fullName.$error ? v$.fullName.$errors[0].$message : ''" v-model="formData.fullName" type="text" field="firstName" placeHolder="Tên người nhận hàng" />
+                                    <InputText col="10" :error="v$.fullName.$error" :errMsg="v$.fullName.$error ? v$.fullName.$errors[0].$message : ''" v-model="formData.fullName" type="text" placeHolder="Tên người nhận hàng" />
                                     <div class="row">
                                         <div class="col-sm-6">
-                                            <InputText col="8" :error="v$.email.$error" :errMsg="v$.email.$error ? v$.email.$errors[0].$message : ''" v-model="formData.email" type="text" field="email" placeHolder="Email" />
+                                            <InputText col="8" :error="v$.email.$error" :errMsg="v$.email.$error ? v$.email.$errors[0].$message : ''" v-model="formData.email" type="text" placeHolder="Email" />
                                         </div>
                                         <div class="col-sm-6">
                                             <InputText col="8" :error="v$.phoneNumber.$error" :errMsg="v$.phoneNumber.$error ? v$.phoneNumber.$errors[0].$message : ''" v-model="formData.phoneNumber" type="text" field="phoneNumber" placeHolder="Điện thoại" />
@@ -26,15 +26,15 @@
                                     </div>
                                     <div class="row">
                                         <div class="col-sm-6">
-                                            <InputDropdown :data="countries" :col="8" :error="v$.countryId.$error" :errMsg="v$.countryId.$error ? v$.countryId.$errors[0].$message : ''" field="country" placeHolder="Quốc gia" v-model="formData.countryId" @value-change="loadCity" />
+                                            <InputDropdown :data="countries" :col="8" :error="v$.countryId.$error" :errMsg="v$.countryId.$error ? v$.countryId.$errors[0].$message : ''" placeHolder="Quốc gia" v-model="formData.countryId" @value-change="loadCity" />
                                         </div>
                                         <div class="col-sm-6">
-                                            <InputDropdown :data="cities" :col="8" :error="v$.cityId.$error" :errMsg="v$.cityId.$error ? v$.cityId.$errors[0].$message : ''" field="city" placeHolder="Tỉnh / TP" v-model="formData.cityId" />
+                                            <InputDropdown :data="cities" :col="8" :error="v$.cityId.$error" :errMsg="v$.cityId.$error ? v$.cityId.$errors[0].$message : ''" placeHolder="Tỉnh / TP" v-model="formData.cityId" />
                                         </div>
                                     </div>
                                     <div class="row">
                                         <div class="col-sm-12">
-                                            <InputText :col="10" type="text" :error="v$.address.$error" :errMsg="v$.address.$error ? v$.address.$errors[0].$message : ''" field="address" placeHolder="Địa chỉ cụ thể" v-model="formData.address" />
+                                            <InputText :col="10" type="text" :error="v$.fullAddress.$error" :errMsg="v$.fullAddress.$error ? v$.fullAddress.$errors[0].$message : ''" placeHolder="Địa chỉ cụ thể" v-model="formData.fullAddress" />
                                         </div>
                                     </div>
                                     <div class="form-group row">
@@ -153,7 +153,7 @@ const formData = reactive({
     fullName: "",
     email: "",
     phoneNumber: "",
-    address: "",
+    fullAddress: "",
     countryId: "",
     cityId: "",
     orderMessage: ""
@@ -182,7 +182,7 @@ const rules = computed(() => {
         cityId: {
             $emptyValue: helpers.withMessage('Thành phố không được trống', $emptyValue)
         },
-        address:{
+        fullAddress: {
             required: helpers.withMessage('Địa chi không được trống', required),
         }
     }
