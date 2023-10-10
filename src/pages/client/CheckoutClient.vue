@@ -45,6 +45,33 @@
                                     </div>
                                 </div>
                             </div>
+                            <!-- Payment type section -->
+                            <div class="panel panel-default">
+                                <div class="panel-heading mb-4">
+                                    <h5 class="panel-title">
+                                        Hình thức thanh toán                                   
+                                    </h5>
+                                </div>
+                                <div class="panel-body py-4">
+                                    <div class="row">
+                                        <div class="col-sm-6">
+                                            <div class="text-center">
+                                                <input type="radio" id="thanh_toan_tai_nha" name="paymentType" value="1" v-model="formData.paymentType" checked />&nbsp;&nbsp;
+                                                <label for="thanh_toan_tai_nha">Thanh toán khi nhận hàng</label>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <div class="text-center">
+                                                <input type="radio" id="vnpay" name="paymentType" value="0" v-model="formData.paymentType"/>&nbsp;&nbsp;
+                                                <label for="vnpay">
+                                                   Sử dụng &nbsp;&nbsp;
+                                                   <img style="width: 100px" src="@/assets/images/logo/logo-zalopay.svg" alt="zalopay" />
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                          <div class="col-sm-12 col-lg-4">
                             <div class="panel panel-default">
@@ -124,7 +151,7 @@
                                     <i class="fa fa-mail-reply-all" aria-hidden="true"></i>&nbsp;&nbsp; Quay lại giỏ hàng                                
                                 </router-link>
                                 <button class="btn btn-primary pull-right" @click.prevent="createOrder" type="button" id="submit_form_button">
-                                    Đặt hàng
+                                    {{formData.paymentType === "1" ? "Đặt hàng" : "Thanh toán"}}
                                 </button>
                             </div>
                          </div>
@@ -156,7 +183,8 @@ const formData = reactive({
     fullAddress: "",
     countryId: "",
     cityId: "",
-    orderMessage: ""
+    orderMessage: "",
+    paymentType: "1"
 })
 
 const countries = ref([])
