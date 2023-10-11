@@ -196,7 +196,6 @@ const loadCity = async (countryId) => {
         });
     }
     cities.value = resp.data
-    console.log(cities.value)
 }
 
 onBeforeMount(() => {

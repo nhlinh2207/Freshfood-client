@@ -4,7 +4,7 @@
         <div :class="'col-sm-12 col-md-'+col">
             <select :name="field" :id="'input-'+field" class="form-control" @change="selectOption">
                 <option value=''> --- Chọn --- </option>
-                <option v-for="item in data" :key="item.id" :value='item.id'>{{item.name}}</option>
+                <option v-for="item in data" :key="item.id" :selected="oldValue === item.id" :value='item.id'>{{item.name}}</option>
             </select>
             <div class="text-danger" v-show="error">{{errMsg}}</div>
         </div>
@@ -24,7 +24,8 @@ export default {
         error: Boolean,
         errMsg: String,
         col: Number,
-        data: Array
+        data: Array,
+        oldValue: Number
     },
 
     emits: ["update:modelValue"],

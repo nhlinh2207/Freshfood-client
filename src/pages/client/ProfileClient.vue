@@ -21,9 +21,9 @@
                             <fieldset id="address" class="mt-4">
                                 <legend>Địa chỉ</legend>
                                 <InputText :col="10" type="text" field="company" placeHolder="Công ty" />
-                                <InputDropdown :col="10" :error="v$.countryId.$error" :errMsg="v$.countryId.$error ? v$.countryId.$errors[0].$message : ''" field="country" placeHolder="Quốc gia" v-model="formData.countryId" />
-                                <InputDropdown :col="10" :error="v$.cityId.$error" :errMsg="v$.cityId.$error ? v$.cityId.$errors[0].$message : ''" field="city" placeHolder="Tỉnh / TP" v-model="formData.cityId" />
-                                <InputText :col="10" type="text" :error="v$.address.$error" :errMsg="v$.address.$error ? v$.address.$errors[0].$message : ''" field="address" placeHolder="Địa chỉ chi tiết" v-model="formData.address" />
+                                <InputDropdown :data="countries" :oldValue="oldCountryId" :col="10" :error="v$.countryId.$error" :errMsg="v$.countryId.$error ? v$.countryId.$errors[0].$message : ''" placeHolder="Quốc gia" v-model="formData.countryId" @value-change="loadCity"/>
+                                <InputDropdown :data="cities" :oldValue="oldCityId" :col="10" :error="v$.cityId.$error" :errMsg="v$.cityId.$error ? v$.cityId.$errors[0].$message : ''" placeHolder="Tỉnh / TP" v-model="formData.cityId" />
+                                <InputText :col="10" type="text" :error="v$.fullAddress.$error" :errMsg="v$.fullAddress.$error ? v$.fullAddress.$errors[0].$message : ''" field="address" placeHolder="Địa chỉ chi tiết" v-model="formData.fullAddress" />
                             </fieldset>
                             <fieldset class="mt-4">
                                 <legend>Mật khẩu</legend>
@@ -50,20 +50,30 @@ import BreadCrumb from '@/components/client/BreadCrumb.vue';
 import InputText from '@/components/client/InputText.vue';
 import InputDropdown from '@/components/client/InputDropdown.vue'
 import useValidate from '@vuelidate/core'
-import { computed } from 'vue';
+import { computed, ref, reactive, onBeforeMount, inject } from 'vue';
 import { required, email, minLength, helpers } from '@vuelidate/validators'
 import {$allNumber, $emptyValue} from '@/validators/custom.validator.js'
-import { reactive } from 'vue';
+import { HttpClient } from "@/plugins/httpClient";
+import { toast } from 'vue3-toastify';
+import { useRouter } from 'vue-router'
+
+const $swal = inject('$swal')
+const router = useRouter();
 
 const formData = reactive({
-    firstName: "Nguyễn Hoài",
-    lastName: "Linh",
+    firstName: "",
+    lastName: "",
     email: "",
     phoneNumber: "",
-    address: "",
+    fullAddress: "",
     countryId: "",
     cityId: ""
 })
+
+const countries = ref([])
+const cities = ref([])
+var oldCountryId = ref("")
+var oldCityId = ref("")
 
 const rules = computed(() => {
     return{
@@ -88,7 +98,7 @@ const rules = computed(() => {
         cityId: {
             $emptyValue: helpers.withMessage('Thành phố không được trống', $emptyValue)
         },
-        address:{
+        fullAddress:{
             required: helpers.withMessage('Địa chi không được trống', required),
         }
     }
@@ -96,12 +106,36 @@ const rules = computed(() => {
 
 const v$ = useValidate(rules, formData)
 
-
 const submitChange = async () => {
     const result = await v$.value.$validate();
-    alert(formData.firstName+" "+formData.lastName)
     if(result){
-        alert("okokokok")
+        $swal({
+            title: 'Xác nhận ?',
+            text: "Cập nhật thông tin tài khoản?",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Xác nhận',
+            cancelButtonText: 'Hủy'
+        }).then(async (result) => {
+            if (result.isConfirmed) {
+                var resp = await new HttpClient(process.env.VUE_APP_BASE_URL).put("/user/getProfile/update", true, {}, formData)
+                if(!resp.result){
+                    return $swal({
+                        title: 'Cập nhật không thành công',                       
+                        text: resp.message,
+                        icon: 'error',
+                    })
+                }
+                router.push('/login');
+                $swal({
+                   title: 'Thành công',                       
+                   text: "Cập nhật tài khoản thành công",
+                   icon: 'success',
+                })
+            }
+        })
     }else{
         // Scroll Back to top if catch Error
         window.scroll({
@@ -112,6 +146,64 @@ const submitChange = async () => {
     }
 }
 
+const loadCountry = async () => {
+    var resp = await new HttpClient(process.env.VUE_APP_BASE_URL).get("/address/country/getAll", false)
+    if(!resp.result){
+        return toast.error("Không load country thành công", {
+           transition: toast.TRANSITIONS.ZOOM,
+           position: toast.POSITION.TOP_RIGHT,
+           autoClose: 1500
+        });
+    }
+    countries.value = resp.data
+}
+
+const loadCity = async (countryId) => {
+    var resp = await new HttpClient(process.env.VUE_APP_BASE_URL).get("/address/city/findByCountry", false, {countryId: countryId})
+    if(!resp.result){
+        return toast.error("Không load city thành công", {
+           transition: toast.TRANSITIONS.ZOOM,
+           position: toast.POSITION.TOP_RIGHT,
+           autoClose: 1500
+        });
+    }
+    cities.value = resp.data
+}
+
+const loadProfile = async () => {
+    var resp = await new HttpClient(process.env.VUE_APP_BASE_URL).get("/user/profile", true, {})
+    if(!resp.result){
+        return toast.error("Không load profile thành công", {
+           transition: toast.TRANSITIONS.ZOOM,
+           position: toast.POSITION.TOP_RIGHT,
+           autoClose: 1500
+        });
+    }
+    formData.firstName = resp.data.firstName
+    formData.lastName = resp.data.lastName
+    formData.email = resp.data.email
+    formData.fullAddress = resp.data.fullAddress
+    formData.phoneNumber = resp.data.phoneNumber
+    formData.countryId = resp.data.countryId
+    formData.cityId = resp.data.cityId
+    oldCityId.value = resp.data.cityId
+    oldCountryId.value = resp.data.countryId
+    // Load oldCities
+    var cityResp = await new HttpClient(process.env.VUE_APP_BASE_URL).get("/address/city/findByCountry", false, {countryId: oldCountryId.value})
+    if(!cityResp.result){
+        return toast.error("Không load city thành công", {
+           transition: toast.TRANSITIONS.ZOOM,
+           position: toast.POSITION.TOP_RIGHT,
+           autoClose: 1500
+        });
+    }
+    cities.value = cityResp.data
+}
+
+onBeforeMount(() => {
+    loadCountry(),
+    loadProfile()
+})
 </script>
 <style lang="">
     
