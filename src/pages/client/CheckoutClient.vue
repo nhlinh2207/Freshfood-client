@@ -221,32 +221,44 @@ const v$ = useValidate(rules, formData)
 const createOrder = async () => {
     const result = await v$.value.$validate();
     if(result){
-        // Show sweetAlert to confirm order
         $swal({
-            title: 'Are you sure ?',
-            text: "Do you want to make order ?",
+            title: 'Đặt hàng?',
+            text: "Xác nhận dặt hàng?",
             icon: 'warning',
             showCancelButton: true,
             confirmButtonColor: '#3085d6',
             cancelButtonColor: '#d33',
-            confirmButtonText: 'Yes'
+            confirmButtonText: 'Xác nhận',
+            cancelButtonText: 'Hủy'
         }).then(async (result) => {
             if (result.isConfirmed) {
-                var resp = await new HttpClient(process.env.VUE_APP_BASE_URL).post("/cart/create", true, {}, {...formData, cartItems: cart.value})
-                if(!resp.result){
-                    return $swal({
-                        title: 'Không thành công',                       
-                        text: resp.message,
-                        icon: 'error',
+                if(formData.paymentType === "1"){
+                    let resp = await new HttpClient(process.env.VUE_APP_BASE_URL).post("/cart/create", true, {}, {...formData, cartItems: cart.value})
+                    if(!resp.result){
+                        return $swal({
+                            title: 'Không thành công',                       
+                            text: resp.message,
+                            icon: 'error',
+                        })
+                    }
+                    store.commit("cart/CLEAR_CART")
+                    window.scrollTo({ top: 0, behavior: "smooth" });
+                    $swal({
+                       title: 'Thành công',                       
+                       text: "Đặt hàng thành công",
+                       icon: 'success',
                     })
+                }else if(formData.paymentType === "0"){
+                    let resp = await new HttpClient(process.env.VUE_APP_BASE_URL).post("/cart/zaloPay/create", true, {}, {...formData, cartItems: cart.value})
+                    if(!resp.result){
+                        return $swal({
+                            title: 'Không thành công',                       
+                            text: resp.message,
+                            icon: 'error',
+                        })
+                    }
+                    return window.location=resp.data
                 }
-                store.commit("cart/CLEAR_CART")
-                window.scrollTo({ top: 0, behavior: "smooth" });
-                $swal({
-                   title: 'Thành công',                       
-                   text: "Đặt hàng thành công",
-                   icon: 'success',
-                })
             }
         })
     }else{
