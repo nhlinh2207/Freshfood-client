@@ -33,6 +33,7 @@ export class HttpClient {
       }
       let apiResponse = new ApiResponse(err, true);
       let resultError = apiResponse.formatResponse().getResult();
+      console.log("post : ",resultError)
       return resultError;
     }
 
@@ -215,11 +216,8 @@ export class ApiResponse {
         // format message
         // this.data: from Back end return
         if (this.data != null) {
-          if (this.data.errorMessage) {
-            this.message = convertLongWordToEasyWord(
-              this.data.errorMessage,
-              ""
-            );
+          if (this.data.message) {
+            this.message = this.data.message
           } else {
             this.message = this.data.errorName
               ? convertLongWordToEasyWord(this.data.errorName, "")

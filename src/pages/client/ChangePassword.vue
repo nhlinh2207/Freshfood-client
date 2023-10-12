@@ -9,7 +9,7 @@
                     <div class="well">
                         <h2 class="mb-4">Đổi mật khẩu</h2>
                         <p><strong>Vui lòng nhập mật khẩu mới</strong></p>
-                        <form id="changePassForm" method="POST">
+                        <form>
                             <input type="hidden" th:value="${token}" id="reset-token"/>
                             <InputText :col="8" :error="v$.password.$error" :errMsg="v$.password.$error ? v$.password.$errors[0].$message : ''" v-model="formData.password" type="password" field="password" placeHolder="Mật khẩu mới" />
                             <InputText :col="8" :error="v$.confirmPassword.$error" :errMsg="v$.confirmPassword.$error ? v$.confirmPassword.$errors[0].$message : ''" v-model="formData.confirmPassword" type="password" field="confirm-password" placeHolder="Nhập lại mật khẩu mới" />

@@ -55,10 +55,8 @@ import { required, email, minLength, helpers } from '@vuelidate/validators'
 import {$allNumber, $emptyValue} from '@/validators/custom.validator.js'
 import { HttpClient } from "@/plugins/httpClient";
 import { toast } from 'vue3-toastify';
-import { useRouter } from 'vue-router'
 
 const $swal = inject('$swal')
-const router = useRouter();
 
 const formData = reactive({
     firstName: "",
@@ -128,7 +126,6 @@ const submitChange = async () => {
                         icon: 'error',
                     })
                 }
-                router.push('/login');
                 $swal({
                    title: 'Thành công',                       
                    text: "Cập nhật tài khoản thành công",

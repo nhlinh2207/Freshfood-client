@@ -8,10 +8,10 @@
             <div style="width: 50%">
                 <div class="well">
                     <h2 class="mb-5">Cập nhật password</h2>
-                    <form id="changePassForm" method="POST">
+                    <form>
                         <!-- <input type="hidden" id="input-id" th:value="${user.id}"/> -->
-                        <InputText :col="8" :error="v$.oldPassword.$error" :errMsg="v$.oldPassword.$error ? v$.oldPassword.$errors[0].$message : ''" v-model="formData.oldPassword" type="text" field="oldPassword" placeHolder="Mật khẩu cũ" />
-                        <InputText :col="8" :error="v$.password.$error" :errMsg="v$.password.$error ? v$.password.$errors[0].$message : ''" v-model="formData.password" type="password" field="password" placeHolder="Mật khẩu mới" />
+                        <InputText :col="8" :error="v$.oldPassword.$error" :errMsg="v$.oldPassword.$error ? v$.oldPassword.$errors[0].$message : ''" v-model="formData.oldPassword" type="password" field="oldPassword" placeHolder="Mật khẩu cũ" />
+                        <InputText :col="8" :error="v$.password.$error" :errMsg="v$.password.$error ? v$.password.$errors[0].$message : ''" v-model="formData.password" type="password" placeHolder="Mật khẩu mới" />
                         <InputText :col="8" :error="v$.confirmPassword.$error" :errMsg="v$.confirmPassword.$error ? v$.confirmPassword.$errors[0].$message : ''" v-model="formData.confirmPassword" type="password" field="confirm-password" placeHolder="Nhập lại mật khẩu mới" />
                         <div class="method text-center mt-4">
                             <div class="method-control mb-3">
@@ -29,9 +29,11 @@
 import BreadCrumb from '@/components/client/BreadCrumb.vue';
 import InputText from '@/components/client/InputText.vue';
 import useValidate from '@vuelidate/core'
-import { computed } from 'vue';
+import { computed, reactive, inject } from 'vue';
 import { required, minLength, sameAs, helpers } from '@vuelidate/validators'
-import { reactive } from 'vue';
+import { HttpClient } from "@/plugins/httpClient";
+
+const $swal = inject('$swal')
 
 const formData = reactive({
     oldPassword: "",
@@ -57,11 +59,35 @@ const rules = computed(() => {
 
 const v$ = useValidate(rules, formData)
 
-
 const updatePassword = async () => {
     const result = await v$.value.$validate();
     if(result){
-        alert("okokokok")
+        $swal({
+            title: 'Xác nhận ?',
+            text: "Cập nhật password?",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Xác nhận',
+            cancelButtonText: 'Hủy'
+        }).then(async (result) => {
+            if (result.isConfirmed) {
+                var resp = await new HttpClient(process.env.VUE_APP_BASE_URL).put("/user/changeCurrentPassword", true, {}, formData)
+                if(!resp.result){
+                    return $swal({
+                        title: 'Cập nhật không thành công',                       
+                        text: resp.message,
+                        icon: 'error',
+                    })
+                }
+                $swal({
+                   title: 'Thành công',                       
+                   text: "Cập nhật mật khẩu thành công",
+                   icon: 'success',
+                })
+            }
+        })
     }else{
         // Scroll Back to top if catch Error
         window.scroll({
