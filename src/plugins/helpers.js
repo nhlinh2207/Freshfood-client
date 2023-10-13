@@ -1,6 +1,12 @@
+import { RoleType } from "@/plugins/constant";
+
 export const isAuthenticated = () => {
     return getLocalStorage(process.env.VUE_APP_ACCESS_TOKEN) || false;
 };
+
+export const isAdmin = () => {
+    return getLocalStorage(process.env.VUE_APP_ROLE) === RoleType.ADMIN || false;
+}
 
 export function setLocalStorage(key, value) {
   localStorage.setItem(key, value);
