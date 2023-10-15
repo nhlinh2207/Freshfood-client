@@ -66,16 +66,27 @@
                         </div>
                     </div>
                 </div>
-                <div th:if="${cart.status == 'SENT'}" class="col-sm-12">
-                    <div class="row">
-                        <div class="col-sm-12 mt-4 d-flex align-items-center justify-content-center">
-                            <a th:href="@{'/freshfood/invoice/export/'+${cart.id}}">
-                                <img th:src="@{/image/logo/pdf.jpg}" width="70px" />
-                            </a>
+            </div>
+            <div class="row mb-3" style="padding: 20px 50px">
+                <div class="col-sm-12 col-lg-6">
+                    <!-- Export PDF if order is finished -->
+                    <div v-if="cart.isDelivered === true" class="form-group required d-flex justify-content-center align-items-center">
+                        <div class="mx-3">
+                            <input style="width: 20px; height: 20px" class="form-control" type="checkbox" :disabled="cart.isReceived === true" :checked="cart.isReceived === true"/>
                         </div>
+                        <label v-if="cart.isDelivered === true && !cart.isReceived" for="sent-success"><strong>Đã nhận hàng</strong></label>
+                        <label v-if="cart.isReceived === true" for="sent-success"><strong>Đã giao hàng thành công</strong></label>
                     </div>
                 </div>
+                <div class="col-sm-12 col-lg-6 d-flex align-items-center justify-content-center">
+                    <a v-if="cart.isReceived === true">
+                        <img src="@/assets/images/logo/pdf.jpg" style="width:70px" />
+                    </a>
+                </div>
             </div>
+            <div class="text-center my-3" v-if="cart.isDelivered === true && cart.isReceived !== true">
+				<button @click.prevent="receiveCart" class="btn btn-primary">Cập nhật</button>
+			</div>
         </div>
       </section>
     </section>
@@ -84,6 +95,8 @@
 import BreadCrumb from '@/components/client/BreadCrumb.vue'
 import {useRoute} from 'vue-router'
 export default {
+  props: {
+  },
  
     components: {
         BreadCrumb
@@ -102,6 +115,32 @@ export default {
                 return this.showErrorMsg(resp.message)
             }
             this.cart = resp.data
+        },
+
+        async receiveCart(){
+            this.$swal({
+                title: 'Xác nhận đã nhận hàng',
+                text: "Đã nhận đơn hàng thành công !",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Xác nhận',
+                cancelButtonText: 'Hủy'
+            }).then(async (result) => {
+                if (result.isConfirmed) {
+                    var resp = await this.$httpClient.get("/cart/receive", true, {cartId: this.cartId})
+                    if(!resp.result){
+                        return this.showErrorMsg(resp.message)
+                    }
+                    this.$swal({
+                        title: 'Thành công',
+                        text: "Cập nhật đơn hàng thành công",
+                        icon: 'success',
+                    })
+                    this.loadCart();
+                }
+            })
         },
     },
     

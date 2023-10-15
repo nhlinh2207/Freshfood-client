@@ -82,9 +82,9 @@
                     <div v-if="cart.status === 'Chưa giao'" class="form-group required row">
 						<label for="input-free-staff" ><strong>Chọn nhân viên giao hàng:</strong></label>
 						<div class="col-sm-12 col-md-10">
-							<select name="staffId" id="input-free-staff" class="form-control">
+							<select v-model="staffId" name="staffId" id="input-free-staff" class="form-control">
 								<option value="0"> --- Chọn --- </option>
-								<!-- <option th:each="i:${staffs}" th:value="${i.id}" th:selected="${i.id == staffId}">[[${i.fullName}]]</option> -->
+								<option v-for="s in staffs" :key="s.id" :value="s.id"  :selected="cart.staffId === s.id" >{{s.name}}</option>
 							</select>
 						</div>
 					</div>
@@ -108,6 +108,9 @@
                     </table>
                 </div>
             </div>
+            <div class="text-center my-3">
+				<button @click.prevent="assignToStaff" class="btn btn-primary">Xác nhận</button>
+			</div>
         </div>
     </div>
 </template>
@@ -125,7 +128,9 @@ export default {
             route: useRoute(),
             cartId: useRoute().params.id,
             cart: {},
-            totalPrice: 0
+            totalPrice: 0,
+            staffs: [],
+            staffId: '0'
         }
     },
     methods: {
@@ -137,10 +142,45 @@ export default {
             this.cart = resp.data
             this.totaPrice = resp.data.totalPrice
         },
+
+        async loadStaff(){
+            var resp = await this.$httpClient.get("/user/getStaff", true, {})
+            if(!resp.result){
+                return this.showErrorMsg(resp.message)
+            }
+            this.staffs = resp.data
+        },
+
+        async assignToStaff(){
+            this.$swal({
+                title: 'Xác nhận',
+                text: "Giao đơn hàng cho nhân viên",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Xác nhận',
+                cancelButtonText: 'Hủy'
+            }).then(async (result) => {
+                if (result.isConfirmed) {
+                    var resp = await this.$httpClient.get("/cart/assignToStaff", true, {cartId: this.cartId, staffId: this.staffId})
+                    if(!resp.result){
+                        return this.showErrorMsg(resp.message)
+                    }
+                    this.$swal({
+                        title: 'Thành công',
+                        text: "Cập nhật đơn hàng thành công",
+                        icon: 'success',
+                    })
+                    this.loadCart();
+                }
+            })
+        },
     },
     
     beforeMount(){
         this.loadCart();
+        this.loadStaff();
     },
 }
 </script>

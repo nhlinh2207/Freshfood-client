@@ -14,21 +14,8 @@
         <hr class="sidebar-divider my-0">
         <!-- Nav Item - Dashboard -->
         
-        <SidebarItem url="/admin/home" icon="fas fa-home" title="Trang chủ" />
-
-        <!-- Divider -->
-        <hr class="sidebar-divider">
-        <!-- Heading -->
-        <div class="sidebar-heading">
-            Món ăn
-        </div>
-
-            <!-- Product Category -->
-        <SidebarItem url="/admin/category" icon="fas fa-list" title="Danh mục món ăn" />
-
-        <!-- Product -->
-        <SidebarItem url="/admin/product" icon="fas fa-list" title="Sản phẩm" />
-
+        <SidebarItem url="/staff/home" icon="fas fa-home" title="Trang chủ" />
+        
         <!-- Divider --> 
         <hr class="sidebar-divider">
 
@@ -37,14 +24,8 @@
             Người dùng
         </div>
 
-            <!-- Staff -->
-        <SidebarItem url="/admin/staff" icon="fas fa-user" title="Nhân viên" />
-
-        <!-- Nav Item - Charts --> 
-        <SidebarItem url="/admin/user" icon="fas fa-user" title="Khách hàng" />
-
         <!-- Cart -->
-        <SidebarItem url="/admin/cartManage" icon="fa fa-shopping-bag" title="Đơn hàng" />
+        <SidebarItem url="/staff/cartStaff" icon="fa fa-shopping-bag" title="Đơn hàng" />
 
         <!-- Divider -->
         <hr class="sidebar-divider d-none d-md-block">
@@ -60,6 +41,8 @@
 import SidebarItem from './SidebarItem.vue';
 
 export default {
+  methods: {
+  },
     
     components: {
         SidebarItem

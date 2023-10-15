@@ -109,13 +109,14 @@ export default {
 
         async updateCategory(item){
             this.$swal({
-                title: 'Are you sure ?',
-                text: "Update category with id "+item.id,
+                title: 'Xác nhận ?',
+                text: "Cập nhật danh mục với id "+item.id,
                 icon: 'warning',
                 showCancelButton: true,
                 confirmButtonColor: '#3085d6',
                 cancelButtonColor: '#d33',
-                confirmButtonText: 'Yes, update it!'
+                confirmButtonText: 'Xác nhận',
+                cancelButtonText: 'Hủy'
             }).then(async (result) => {
                 if (result.isConfirmed) {
                     var resp = await this.$httpClient.put("/category/update", true, {}, {id: item.id, name: item.name})
@@ -123,8 +124,8 @@ export default {
                         return this.showErrorMsg(resp.message)
                     }
                     this.$swal({
-                        title: 'Updated',
-                        text: "Your category was updated !",
+                        title: 'Thành công',
+                        text: "Cập nhật danh mục !",
                         icon: 'success',
                     })
                     this.loadCategory();

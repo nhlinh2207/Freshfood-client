@@ -9,7 +9,7 @@
         <router-link to="/register">Đăng ký</router-link>
     </li>
     <li v-if="isAuthenticated">
-        <a class="dropdown-toggle" data-toggle="dropdown" href="javascript:void(0)">Xin chào, Nguyễn Hoài Linh</a>    
+        <a class="dropdown-toggle" data-toggle="dropdown" href="javascript:void(0)">Xin chào, {{username}}</a>    
         <ul class="dropdown-menu">
             <li class="dropdown-item text-center">
                 <router-link to="/profile">Hồ sơ</router-link>
@@ -25,8 +25,13 @@
 </template>
 <script>
 export default {
-  watch: {
-  },
+    
+    computed: {
+        username(){
+            return this.$store.getters["authen/getUser"].username || "";
+        }
+    },
+
     methods: {
         logout(){
             this.$store.commit("authen/LOGOUT");

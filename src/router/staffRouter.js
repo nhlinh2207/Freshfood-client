@@ -25,23 +25,14 @@ const routes = [
               component: () => import("@/pages/staff/CartStaff"),
             },
             {
-              path: "cartDetail/:id",
-              name: "cart-detail",
+              path: "cartDetailStaff/:id",
+              name: "cart-detail-staff",
               meta: {
                 title: "Chi tiết đơn hàng",
               },
               props: true,
               component: () => import("@/pages/staff/CartDetail"),
-            },
-            {
-              path: "userProfile/:id",
-              name: "user-profile",
-              meta: {
-                title: "Thông tin người dùng",
-              },
-              props: true,
-              component: () => import("@/pages/staff/UserProfile"),
-            },
+            }
         ]
     }
 ]

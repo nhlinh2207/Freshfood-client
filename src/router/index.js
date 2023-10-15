@@ -1,10 +1,12 @@
 import ClientRouter from './clientRouter.js'
 import AdminRouter from './adminRouter.js'
+import StaffRouter from './staffRouter.js'
 import { createRouter, createWebHistory } from "vue-router"
 import { isAuthenticated } from "@/plugins/helpers";
 const routes = [
     ...ClientRouter,
-    ...AdminRouter
+    ...AdminRouter,
+    ...StaffRouter
 ]
 
 const router = createRouter({

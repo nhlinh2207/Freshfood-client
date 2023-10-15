@@ -169,6 +169,7 @@ export default {
         updateStatus(name, code){
             this.statusText = name;
             this.statusCode = code;
+            this.page = 0
             this.loadCarts();
         }
     },
