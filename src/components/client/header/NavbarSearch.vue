@@ -7,7 +7,7 @@
                     <i class="fa fa-search"></i>
                 </button>
                 <button title="Tìm kiếm bằng hình ảnh" class="btn icon-fallback-text" data-toggle="modal" data-target="#searchByImageContent">
-                    <i class="fa fa-paperclip"></i>
+                    <i class="fa fa-camera"></i>
                 </button>
                 <!-- Search by Image modal -->
                 <div class="modal fade" id="searchByImageContent" tabindex="-1" role="dialog" aria-labelledby="searchByImageContent" aria-hidden="true">
@@ -20,10 +20,10 @@
                                 </button>
                             </div>
                             <div class="modal-body d-flex justify-content-center align-items-center">
-                                <i v-if="!image" @click="openFileInput" style="font-size: 50px; cursor: pointer" class="fa fa-upload my-4"></i>
+                                <i v-if="!image" @click="$refs.fileInput.click()" style="font-size: 50px; cursor: pointer" class="fa fa-upload my-4"></i>
                                 <input type="file" ref="fileInput" style="display: none" @change="handleFileUpload">
-                                <div v-if="image" style="padding: 5px; width:300px; height: fit-content; border: 1px solid grey">
-                                   <img :src="image" id="thumbnail" />
+                                <div v-if="image" style="padding: 5px; width:500px; height: fit-content; border: 1px solid grey">
+                                    <cropper :src="image" ref="cropper" class="upload-example-cropper" />
                                 </div>
                             </div>
                             <div class="modal-footer d-flex align-items-center justify-content-center">
@@ -39,11 +39,17 @@
 </template>
 <script>
 import { HttpClient } from "@/plugins/httpClient";
+import { Cropper } from 'vue-advanced-cropper'
+import 'vue-advanced-cropper/dist/style.css';
 export default {
+    components:{
+        Cropper
+    },
     data(){
         return{
             searchText: '',
-            image: ''
+            image: '',
+            imageCrop: null,
         }
     },
 
@@ -55,10 +61,6 @@ export default {
             }else{
                 this.$router.push('/product?search='+this.searchText);
             }
-        },
-
-        openFileInput() {
-            this.$refs.fileInput.click();
         },
     
         handleFileUpload(event) {
@@ -75,11 +77,16 @@ export default {
         },
 
         resetImage(){
-            this.image = ''
+            this.image = '',
+            this.imageCrop = null
         },
 
         async findByImage(){
-            var resp  = await new HttpClient("http://localhost:5000").post("/predict", false, {}, {image: this.image.split(',')[1]})
+            const { coordinates, canvas} = this.$refs.cropper.getResult();
+			this.coordinates = coordinates;
+			this.imageCrop = canvas.toDataURL();
+
+            var resp  = await new HttpClient("http://localhost:5000").post("/predict", false, {}, {image: this.imageCrop.split(',')[1]})
             if(resp){
                 console.log(resp)
                 return this.showSuccessMsg("Tìm thành công")
@@ -88,6 +95,8 @@ export default {
     }
 }
 </script>
-<style lang="">
-    
+<style scoped>
+    .cropper {
+        background: #DDD; 
+    }
 </style>
