@@ -79,7 +79,7 @@
                     </div>
                 </div>
                 <div class="col-sm-12 col-lg-6 d-flex align-items-center justify-content-center">
-                    <a v-if="cart.isReceived === true">
+                    <a title="In hóa đơn" @click.prevent="printInvoice" v-if="cart.isReceived === true" style="cursor: pointer">
                         <img src="@/assets/images/logo/pdf.jpg" style="width:70px" />
                     </a>
                 </div>
@@ -94,6 +94,8 @@
 <script>
 import BreadCrumb from '@/components/client/BreadCrumb.vue'
 import {useRoute} from 'vue-router'
+//   import axios from 'axios';
+
 export default {
   props: {
   },
@@ -142,6 +144,17 @@ export default {
                 }
             })
         },
+        
+        async printInvoice(){
+            await this.$httpClient.getFile(
+               'cart/export',
+               true,
+               {cartId: this.cartId},
+               null,
+               "",
+               "hóa_đơn.pdf"
+            );
+        }
     },
     
     beforeMount(){

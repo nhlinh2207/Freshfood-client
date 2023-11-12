@@ -59,12 +59,13 @@ export class HttpClient {
 
     getFile(
       url,
+      auth = true,
       query = {},
       headers = {},
       contentType = "plain/text",
       filename = "DownloadedFile"
     ) {
-      let options = this.getOptions(headers);
+      let options = this.getOptions(headers, auth);
       options["Content-Type"] = contentType;
       options["responseType"] = "blob";
       url = buildUrl(url, query);
