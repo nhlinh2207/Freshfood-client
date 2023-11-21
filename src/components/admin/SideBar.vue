@@ -20,11 +20,11 @@
         <hr class="sidebar-divider">
         <!-- Heading -->
         <div class="sidebar-heading">
-            Món ăn
+            Sản phẩm
         </div>
 
             <!-- Product Category -->
-        <SidebarItem url="/admin/category" icon="fas fa-list" title="Danh mục món ăn" />
+        <SidebarItem url="/admin/category" icon="fas fa-list" title="Danh mục sản phẩm" />
 
         <!-- Product -->
         <SidebarItem url="/admin/product" icon="fas fa-list" title="Sản phẩm" />
@@ -48,6 +48,13 @@
 
         <!-- Divider -->
         <hr class="sidebar-divider d-none d-md-block">
+
+        <!-- Heading -->
+        <div class="sidebar-heading">
+            Hệ thống
+        </div>
+
+        <SidebarItem url="/admin/user" icon="fas fa-cookie" title="Phân quyền hệ thống" />
 
         <!-- Sidebar Toggler (Sidebar) -->
         <div class="text-center d-none d-md-inline">

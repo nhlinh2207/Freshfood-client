@@ -109,7 +109,7 @@ export default{
             sortBy: 'createTime',
             sortDir: 'desc',
             page: 0,
-            size: 1,
+            size: 15,
             totalPages: null,
             categoryId: this.$route.query.categoryId || '',
             search: this.$route.query.search || '',

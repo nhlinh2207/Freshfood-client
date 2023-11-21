@@ -15,7 +15,7 @@
                         <div class="modal-content">
                             <div class="modal-header">
                                 <h5 class="modal-title" id="exampleModalLongTitle">Chọn hình ảnh</h5>
-                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close" ref="closeModal">
                                    <span aria-hidden="true">&times;</span>
                                 </button>
                             </div>
@@ -88,8 +88,11 @@ export default {
 
             var resp  = await new HttpClient("http://localhost:5000").post("/predict", false, {}, {image: this.imageCrop.split(',')[1]})
             if(resp){
-                console.log(resp)
-                return this.showSuccessMsg("Tìm thành công")
+                // Gửi về BE để tìm product
+                this.searchText = resp;
+                this.searchProduct();
+                this.$refs.closeModal.click();
+                // return this.showSuccessMsg("Tìm thành công")
             }
         }
     }

@@ -28,6 +28,7 @@
 	</div>
 </template>
 <script>
+import { convertPriceString } from '@/plugins/helpers'
 export default {
     
     props: {
@@ -57,11 +58,11 @@ export default {
                 },
                 yaxis: {
                     min: 0,
-                    max: 200000,
+                    max: 1000000,
                     tickAmount: 5,
                     labels: {
                         formatter: function (value) {
-                            return value+" đ"; // Định dạng nhãn trục Y
+                            return convertPriceString(value, true); // Định dạng nhãn trục Y
                         },
                     }
                 }

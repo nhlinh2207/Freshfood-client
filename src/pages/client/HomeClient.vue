@@ -47,7 +47,7 @@
                                                                     <h2>Cơm bình dân</h2>
                                                                 </div>
                                                                 <div>
-                                                                    <ProductTab tabOrder="1" :categories="['Cơm bình dân', 'Bánh mỳ', 'Đồ uống']" /> 
+                                                                    <ProductTab tabOrder="1" :categories="['Trái cây tươi', 'Hoa quả bốn mùa', 'Trái cây nhập khẩu']" /> 
                                                                     <!-- Product Carousel -->
                                                                     <div class="category-custom20 tab-content active" id="category_custom20">
                                                                         <div class="product product-view-grid owl-carousel" data-nav="true" data-xl-items="4" data-lg-items="4" data-md-items="4" data-sm-items="3" data-xs-items="2" data-xss-items="2">
@@ -82,7 +82,7 @@
                                                                     <h2>Hoa quả tươi</h2>
                                                                 </div>
                                                                 <div>
-                                                                    <ProductTab tabOrder="2" :categories="['Hoa quả tươi', 'Đồ ăn nhẹ', 'Sinh tố']" /> 
+                                                                    <ProductTab tabOrder="2" :categories="['Rau củ sạch', 'Hoa quả sấy khô', 'Thực phẩm gia vị']" /> 
                                                                     <!-- Product Carousel -->
                                                                     <div class="category-custom20 tab-content active" id="category_custom20">
                                                                         <div class="product product-view-grid owl-carousel" data-nav="true" data-xl-items="4" data-lg-items="4" data-md-items="4" data-sm-items="3" data-xs-items="2" data-xss-items="2">
