@@ -39,7 +39,7 @@
 </template>
 <script>
 import { HttpClient } from "@/plugins/httpClient";
-import { Cropper } from 'vue-advanced-cropper'
+import { Cropper } from 'vue-advanced-cropper';
 import 'vue-advanced-cropper/dist/style.css';
 export default {
     components:{
@@ -49,7 +49,7 @@ export default {
         return{
             searchText: '',
             image: '',
-            imageCrop: null,
+            imageCrop: null
         }
     },
 
@@ -85,7 +85,7 @@ export default {
             const { coordinates, canvas} = this.$refs.cropper.getResult();
 			this.coordinates = coordinates;
 			this.imageCrop = canvas.toDataURL();
-
+            this.showLoadingMessage();
             var resp  = await new HttpClient("http://localhost:5000").post("/predict", false, {}, {image: this.imageCrop.split(',')[1]})
             if(resp){
                 // Gửi về BE để tìm product
@@ -94,6 +94,7 @@ export default {
                 this.$refs.closeModal.click();
                 // return this.showSuccessMsg("Tìm thành công")
             }
+            this.closeLoadingMessage();
         }
     }
 }

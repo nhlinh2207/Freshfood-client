@@ -3,7 +3,13 @@ import { toast } from 'vue3-toastify';
 import { convertPriceString } from '@/plugins/helpers'
 
 export const commonMixin = {
-  
+
+    data(){
+      return{
+          loadingToastId: null
+      }
+    },
+   
     computed: {
         isAuthenticated() {
           return this.$store.getters["authen/getToken"] || "";
@@ -14,6 +20,19 @@ export const commonMixin = {
     },
 
     methods: {
+      showLoadingMessage(msg = 'Loading....'){
+        this.loadingToastId = toast.loading(msg, {
+          transition: toast.TRANSITIONS.ZOOM,
+          position: toast.POSITION.TOP_RIGHT
+        });
+      },
+
+      closeLoadingMessage(){
+        if(this.loadingToastId){
+          toast.remove(this.loadingToastId);
+        }
+      },
+
       showErrorMsg(msg){
         window.scrollTo({ top: 0, behavior: "smooth" });
         toast.error(msg, {
