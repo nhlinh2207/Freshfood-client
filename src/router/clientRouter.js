@@ -140,6 +140,16 @@ const routes = [
               props: true,
               component: () => import("@/pages/client/CartDetail")
           },
+          {
+            path: "payment_success",
+            name: "payment_success",
+            meta: {
+              title: "Thanh toán đơn hàng thành công",
+              requireAuth: true,
+            },
+            props: true,
+            component: () => import("@/pages/client/PaymentSuccess")
+        },
         ]
     }
 ]
