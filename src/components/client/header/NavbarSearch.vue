@@ -61,6 +61,7 @@ export default {
             }else{
                 this.$router.push('/product?search='+this.searchText);
             }
+            this.searchText = '';
         },
     
         handleFileUpload(event) {
@@ -95,6 +96,7 @@ export default {
                 // return this.showSuccessMsg("Tìm thành công")
             }
             this.closeLoadingMessage();
+            this.searchText = '';
         }
     }
 }

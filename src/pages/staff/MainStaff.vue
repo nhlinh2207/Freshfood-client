@@ -5,7 +5,7 @@
             <div id="content-wrapper" class="d-flex flex-column">
                <!-- Main Content -->
                <div id="content">
-                    <HeaderAdmin/>  
+                    <HeaderStaff/>  
                     <RouterView :key="$route.fullPath"/>
                     <FooterAdmin/>   
                </div>
@@ -16,13 +16,13 @@
 <script>
 import {useRoute, useRouter, RouterView} from 'vue-router'
 import SideBar from '@/components/staff/SideBar.vue';
-import HeaderAdmin from '@/components/admin/header/HeaderAdmin.vue';
+import HeaderStaff from '@/components/staff/header/HeaderStaff.vue';
 import FooterAdmin from '@/components/admin/footer/FooterAdmin.vue';
 export default {
  
     components: {
         SideBar,
-        HeaderAdmin,
+        HeaderStaff,
         FooterAdmin,
         RouterView,
     },

@@ -3,7 +3,17 @@
         <BreadCrumb breadcrumbType="payment_success" />
     </div>
     <section>
-        <h1>Thanh toán thành công đơn hàng {{cartId}}</h1>
+        <div class="container">
+            <div class="text-center">
+                <div class="my-5">
+                    <h3>Thanh toán đơn hàng {{cartId}} thành công !</h3>
+                </div>
+                <div class="mb-5">
+                   <img style="width: 150px; height: auto" src="@/assets/images/logo/payment_success.jpg" />
+                </div>
+            </div>
+        </div>
+        
     </section>
 </template>
 <script>

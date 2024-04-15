@@ -65,10 +65,10 @@
                                         <router-link :to="'/admin/viewProfile/'+u.id" title="Xem chi tiết">
                                             <i class="fas fa-edit"></i>
                                         </router-link>
-                                        <a @click="deleteUser(u.id)" v-if="u.status !== 'Đã xóa'" class="ml-4" title="Xóa tài khoản">
+                                        <a @click="deleteUser(u.id)" v-if="u.status !== 'Đã xóa'" class="ml-4" title="Xóa tài khoản" style="cursor: pointer">
                                             <i class="fas fa-trash"></i>  
                                         </a>
-                                        <a @click="restoreUser()" v-if="u.status === 'Đã xóa'" class="ml-4" title="Khôi phục tài khoản">
+                                        <a @click="restoreUser(u.id)" v-if="u.status === 'Đã xóa'" class="ml-4" title="Khôi phục tài khoản" style="cursor: pointer">
                                             <i class="fas fa-refresh"></i>  
                                         </a>
                                     </td>
@@ -156,8 +156,30 @@ export default {
             })
         },
 
-        restoreUser(){
-            
+        restoreUser(id){
+            this.$swal({
+                title: 'Khôi phục tài khoản ?',
+                text: "Khôi phục tài khoản có mã: "+id,
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Xác nhận',
+                cancelButtonText: 'Hủy'
+            }).then(async (result) => {
+                if (result.isConfirmed) {
+                    var resp = await this.$httpClient.get("/user/restore", true, {id : id})
+                    if(!resp.result){
+                        return this.showErrorMsg(resp.message)
+                    }
+                    this.$swal({
+                        title: 'Thành công',
+                        text: "Tài khoản đã được khôi phục !",
+                        icon: 'success',
+                    })
+                    this.loadUsers();
+                }
+            })
         },
 
         updateStatus(name, code){

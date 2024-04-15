@@ -152,7 +152,7 @@ export default {
                {cartId: this.cartId},
                null,
                "",
-               "hóa_đơn.pdf"
+               "freshfood_invoice.xlsx"
             );
         }
     },

@@ -1,7 +1,7 @@
 const routes = [
     {
         path: "/staff",
-        redirect: {name : "staffHome"},
+        redirect: {name : "cartStaff"},
         component: () => import("@/pages/staff/MainStaff"),
         meta: {
             requireAuth : false,

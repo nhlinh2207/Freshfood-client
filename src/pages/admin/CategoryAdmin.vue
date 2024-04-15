@@ -40,9 +40,16 @@
                                     <span>23</span>
 								</td>
                                 <td class="text-center">
-                                    <button type="button" @click.prevent="deleteCategory(category.id)" data-toggle="tooltip" title class="btn btn-danger" data-original-title="Xóa">
+                                    <!-- <button type="button" @click.prevent="deleteCategory(category.id)" data-toggle="tooltip" title class="btn btn-danger" data-original-title="Xóa">
                                         <i class="fa fa-times-circle"></i>
-                                    </button>
+                                    </button> -->
+
+                                    <a @click.prevent="deleteCategory(category.id)" v-if="category.status !== 'INACTIVE'" class="ml-4" title="Xóa danh mục" style="cursor: pointer">
+                                        <i class="fas fa-trash"></i>  
+                                    </a>
+                                    <a @click.prevent="restoreCategory(category.id)" v-if="category.status === 'INACTIVE'" class="ml-4" title="Khôi phục danh mục" style="cursor: pointer">
+                                        <i class="fas fa-refresh"></i>  
+                                    </a>
                                 </td>
                             </tr>
 						</tbody>
@@ -72,16 +79,16 @@ export default {
             this.categories = resp.data
         },
 
-
         async deleteCategory(id){
             this.$swal({
-                title: 'Are you sure ?',
-                text: "Delete category with id "+id,
+                title: 'Xóa danh mục ?',
+                text: "Xóa danh mục có id "+id,
                 icon: 'warning',
                 showCancelButton: true,
                 confirmButtonColor: '#3085d6',
                 cancelButtonColor: '#d33',
-                confirmButtonText: 'Yes, delete it!'
+                confirmButtonText: 'Xác nhận',
+                cancelButtonText: 'Hủy'
             }).then(async (result) => {
                 if (result.isConfirmed) {
                     var resp = await this.$httpClient.delete("/category/delete", true, {id : id})
@@ -90,7 +97,33 @@ export default {
                     }
                     this.$swal({
                         title: 'Deleted',
-                        text: "Your category was deleted !",
+                        text: "Đã xóa danh mục thành công !",
+                        icon: 'success',
+                    })
+                    this.loadCategory();
+                }
+            })
+        },
+
+        async restoreCategory(id){
+            this.$swal({
+                title: 'Khôi phục danh mục ?',
+                text: "Khôi phục danh mục có id "+id,
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Xác nhận',
+                cancelButtonText: 'Hủy'
+            }).then(async (result) => {
+                if (result.isConfirmed) {
+                    var resp = await this.$httpClient.get("/category/restore", true, {id : id})
+                    if(!resp.result){
+                        return this.showErrorMsg(resp.message)
+                    }
+                    this.$swal({
+                        title: 'Deleted',
+                        text: "Đã khôi phục danh mục thành công !",
                         icon: 'success',
                     })
                     this.loadCategory();

@@ -75,7 +75,7 @@ const routes = [
               component: () => import("@/pages/admin/UserManage"),
           },
           {
-            path: "userProfile/:id",
+            path: "viewProfile/:id",
             name: "user-profile",
             meta: {
               title: "Thông tin người dùng",

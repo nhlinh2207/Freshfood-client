@@ -172,9 +172,11 @@ import { reactive, ref, onBeforeMount, inject, computed } from 'vue';
 import { HttpClient } from "@/plugins/httpClient";
 import { useStore } from 'vuex';
 import { toast } from 'vue3-toastify';
+import { useRouter } from 'vue-router'
 
 const $swal = inject('$swal')
 const store = useStore();
+const router = useRouter();
 
 const formData = reactive({
     fullName: "",
@@ -241,13 +243,14 @@ const createOrder = async () => {
                             icon: 'error',
                         })
                     }
-                    store.commit("cart/CLEAR_CART")
+                    777
                     window.scrollTo({ top: 0, behavior: "smooth" });
                     $swal({
                        title: 'Thành công',                       
                        text: "Đặt hàng thành công",
                        icon: 'success',
                     })
+                    router.push('/cartDetail/'+resp.data);
                 }else if(formData.paymentType === "0"){
                     let resp = await new HttpClient(process.env.VUE_APP_BASE_URL).post("/cart/zaloPay/create", true, {}, {...formData, cartItems: cart.value})
                     if(!resp.result){

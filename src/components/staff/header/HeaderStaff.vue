@@ -201,11 +201,11 @@ export default {
         },
 
         async getChatBoxList(){
-            var resp = await this.$httpClient.get("/chatroom/findByAdmin", true, {})
+            var resp = await this.$httpClient.get("/chatroom/findByUser", true, {})
             if(!resp.result){
                 return this.showErrorMsg(resp.message)
             }
-            this.chatBoxList = resp.data
+            this.chatBoxList = [resp.data]
         },
 
         reloadChatBox(message){
