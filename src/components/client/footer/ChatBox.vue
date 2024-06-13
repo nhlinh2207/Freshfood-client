@@ -67,8 +67,9 @@ export default {
         },
 
         connect(){
+            alert(process.env.VUE_APP_WEBSOCKET_URL);
             try{    
-                this.socket = new SockJS("http://localhost:8080/ws");
+                this.socket = new SockJS(process.env.VUE_APP_WEBSOCKET_URL);
                 this.stompClient = Stomp.over(this.socket)
                 var currentEmail = JSON.parse(getLocalStorage(process.env.VUE_APP_USER)).email;
                 this.stompClient.connect(

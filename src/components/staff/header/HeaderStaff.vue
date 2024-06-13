@@ -174,7 +174,7 @@ export default {
 
         connect(){
             try{    
-                this.socket = new SockJS("http://localhost:8080/ws");
+                this.socket = new SockJS(process.env.VUE_APP_WEBSOCKET_URL);
                 this.stompClient = Stomp.over(this.socket)
                 this.stompClient.connect(
                     {},
