@@ -243,7 +243,7 @@ const createOrder = async () => {
                             icon: 'error',
                         })
                     }
-                    777
+                    store.commit("cart/CLEAR_CART");
                     window.scrollTo({ top: 0, behavior: "smooth" });
                     $swal({
                        title: 'Thành công',                       
