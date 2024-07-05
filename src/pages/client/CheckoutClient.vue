@@ -250,7 +250,8 @@ const createOrder = async () => {
                        text: "Đặt hàng thành công",
                        icon: 'success',
                     })
-                    router.push('/cartDetail/'+resp.data);
+                    // router.push('/cartDetail/'+resp.data);
+                    router.push('/history');
                 }else if(formData.paymentType === "0"){
                     let resp = await new HttpClient(process.env.VUE_APP_BASE_URL).post("/cart/zaloPay/create", true, {}, {...formData, cartItems: cart.value})
                     if(!resp.result){
