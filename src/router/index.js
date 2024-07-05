@@ -28,7 +28,7 @@ router.beforeEach((to, from, next) => {
 
 router.afterEach((to) => {
     window.scrollTo({ top: 0, behavior: "smooth" });
-    document.title = to.meta.title ?? "App";
+    document.title = to.meta.title ?? "Not Found";
 });
 
 export default router;

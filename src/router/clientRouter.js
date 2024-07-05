@@ -149,7 +149,12 @@ const routes = [
             },
             props: true,
             component: () => import("@/pages/client/PaymentSuccess")
-        },
+          },
+          {
+            path: '/:pathMatch(.*)*',
+            name: "NotFound",
+            component: () => import("@/pages/NotFoundPage")
+        }
         ]
     }
 ]
