@@ -99,8 +99,8 @@ export default{
         },
         sendRating(){
             this.$swal({
-               title: 'Are you sure ?',
-               text: "Do you want to send rating ?",
+               title: 'Xác nhận?',
+               text: "Bạn muốn gửi đánh giá ?",
                icon: 'warning',
                showCancelButton: true,
                confirmButtonColor: '#3085d6',

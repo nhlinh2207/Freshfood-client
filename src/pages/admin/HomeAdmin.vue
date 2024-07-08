@@ -22,6 +22,9 @@
     </div>
 </template>
 <script>
+import SockJS from 'sockjs-client';
+import Stomp from 'webstomp-client';
+import { getLocalStorage } from "@/plugins/helpers";
 import PDFExporter from '@/components/admin/PDFExporter.vue';
 import CardChart from '@/components/admin/charts/CartChart.vue';
 import AreaChart from '@/components/admin/charts/AreaChart.vue';
@@ -58,7 +61,7 @@ export default {
             this.userCard = resp.data.totalUser
             this.monthlyIncomeCard = resp.data.monthlyIncome
             this.annualIncomeCard = resp.data.annualIncome
-            this.tankCard = resp.data.totalRank
+            this.rankCard = resp.data.totalRank
         },
 
         async loadAreaChart(){
@@ -96,6 +99,39 @@ export default {
             }
         },
 
+        // WEB SOCKET CONNECT
+        rankRealtimeConnect(){
+            try{    
+                this.socket = new SockJS(process.env.VUE_APP_WEBSOCKET_URL);
+                this.stompClient = Stomp.over(this.socket)
+                var currentEmail = JSON.parse(getLocalStorage(process.env.VUE_APP_USER)).email;
+                this.stompClient.connect(
+                    {'chatRoomId' : this.chatRoomId, 'email' : currentEmail },
+                    frame => {
+                        console.log("socket connect success "+frame);
+                        this.stompClient.subscribe('/topic/totalRanks', this.loadTotalRanks); 
+                    },
+                    error => {
+                       console.log(error);
+                       this.disconnect();
+                    }
+                );
+            }catch(err){
+                console.log("err socket: "+err)
+            }
+        },
+
+        rankRealtimeDisconnect() {
+            if (this.stompClient && this.stompClient.connected) {
+               this.stompClient.disconnect();
+               console.log("socket disconnect")
+            }
+        },
+
+        loadTotalRanks(message){
+            this.rankCard = message.body;
+        }
+
     },
     
     beforeMount(){
@@ -103,6 +139,14 @@ export default {
         this.loadAreaChart();
         this.loadPieChart();
     },
+
+    mounted(){
+        this.rankRealtimeConnect();
+    },
+
+    beforeUnmount() {
+        this.rankRealtimeDisconnect();
+    }
 } 
 </script>
 

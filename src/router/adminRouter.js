@@ -4,7 +4,7 @@ const routes = [
         redirect: {name : "adminHome"},
         component: () => import("@/pages/admin/MainAdmin"),
         meta: {
-            requireAuth : false,
+            requireAuth : true,
         },
         children: [
             {
