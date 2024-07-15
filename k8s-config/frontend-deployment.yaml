@@ -1,0 +1,57 @@
+apiVersion : apps/v1
+kind: Deployment
+metadata:
+  name: frontend-service-app
+spec:
+  selector:
+    matchLabels:
+      app: frontend-service-app
+  template:
+    metadata:
+      labels:
+        app: frontend-service-app
+    spec:
+      containers:
+        - name: frontend-service-app
+          image: nhlinh2207/freshfoodclient:1
+          ports:
+            - containerPort: 80
+          env:
+            - name: TEST_A
+              valueFrom:
+                configMapKeyRef:
+                  key: baseurl
+                  name: backend-cm
+            - name: TEST_B
+              valueFrom:
+                configMapKeyRef:
+                  key: wsurl
+                  name: backend-cm
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: frontend-service-svc
+spec:
+  selector:
+    app: frontend-service-app
+  ports:
+    - port: 80
+      targetPort: 80
+
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: frontend-loadbalancer
+spec:
+  type: LoadBalancer
+  selector:
+    app: frontend-service-app
+  ports:
+    - port: 80
+      targetPort: 80

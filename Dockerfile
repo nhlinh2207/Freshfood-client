@@ -7,7 +7,11 @@ RUN npm run build
 
 # Production stage
 FROM nginx:1.19-alpine
-COPY --from=build-stage /app/dist /usr/share/nginx/html
 COPY deploy/nginx.conf /etc/nginx/conf.d/default.conf
+WORKDIR /usr/share/nginx/html
+COPY --from=build-stage /app/dist/ .
+COPY deploy/entrypoint.sh .
 EXPOSE 80
+RUN chmod +x /usr/share/nginx/html/entrypoint.sh
+ENTRYPOINT ["/usr/share/nginx/html/entrypoint.sh"]
 CMD ["nginx", "-g", "daemon off;"]

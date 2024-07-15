@@ -210,6 +210,10 @@ export default {
     },
 
     mounted() {
+        // console.log(process.env.VUE_APP_BASE_URL)
+        // console.log(process.env.VUE_APP_WEBSOCKET_URL)
+        // console.log(process.env.NODE_ENV)
+
         this.emitter.on('product-tab-change', (data) => {
             if(data.tabIndex < 3){
                 this.tabIndex1 = data.tabIndex

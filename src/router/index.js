@@ -3,6 +3,9 @@ import AdminRouter from './adminRouter.js'
 import StaffRouter from './staffRouter.js'
 import { createRouter, createWebHistory } from "vue-router"
 import { isAuthenticated } from "@/plugins/helpers";
+
+const baseRoute = process.env.NODE_ENV === 'development' ? '/web/' : '/';
+
 const routes = [
     ...ClientRouter,
     ...AdminRouter,
@@ -10,7 +13,7 @@ const routes = [
 ]
 
 const router = createRouter({
-    history : createWebHistory(),
+    history : createWebHistory(baseRoute),
     base: process.env.BASE_URL,
     routes: routes
 });
