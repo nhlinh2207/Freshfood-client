@@ -16,17 +16,9 @@ spec:
           image: nhlinh2207/freshfoodclient:1
           ports:
             - containerPort: 80
-          env:
-            - name: TEST_A
-              valueFrom:
-                configMapKeyRef:
-                  key: baseurl
-                  name: backend-cm
-            - name: TEST_B
-              valueFrom:
-                configMapKeyRef:
-                  key: wsurl
-                  name: backend-cm
+          envFrom:
+            - configMapRef:
+                name: backend-cm
 
 ---
 
